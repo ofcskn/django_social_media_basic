@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,18 +9,23 @@
     <!--The name of my application is Socipoki-->
     <title>{% block pageTitle %} {% endblock %} | Socipoki</title>
     <!-- library css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
 </head>
 
 <body>
     <!--navbar-->
-    {% include "partials/_navbar.html" with user_name="ofcskn" %}
-    <!-- the content block of the layout -->
-    {% block content %} {% endblock %}
+    {% include "partials/_navbar.html" with user_name="user_name" app_name=app_name %}
+    <div class="container">
+        <!-- the content block of the layout -->
+        {% block content %} {% endblock %}
+    </div>
+    <!--footer-->
+    {% include "partials/_footer.html" with app_name=app_name %}
 
     <!-- library scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

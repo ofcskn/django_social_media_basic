@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import datetime
+from django.conf import settings # import the settings file
 
 # Create your views here.
 def home(request):
     section_title = "My"
     return render(request, "core/index.html", {
-        "title": section_title
+        "title": section_title,
+        "user_name": "ofcskn",
+        "app_name": settings.APP_NAME
     })
 
 def explore(request):
