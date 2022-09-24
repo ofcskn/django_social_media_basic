@@ -6,4 +6,12 @@
 
 <h2>Posts</h2>
 
+{% if posts|length > 0 %}
+    {% for post in posts %}
+        {% include 'partials/_post.html' with post=post %}
+    {%endfor%}
+{% else %}
+    <p>No posts</p>
+{% endif %}
+
 {% endblock %}

@@ -1,14 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import datetime
-from django.conf import settings # import the settings file
+from django.conf import settings
+
+from core.models import Post # import the settings file
 
 # Create your views here.
 def home(request):
     section_title = "My"
+    # post list of the user (firstly)
+    posts = Post.objects.all()
     return render(request, "core/index.html", {
         "title": section_title,
         "user_name": "ofcskn",
+        "posts": posts,
         "app_name": settings.APP_NAME
     })
 
