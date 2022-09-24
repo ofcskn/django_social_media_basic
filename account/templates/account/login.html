@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1 class="card-title">Login</h2>
-<form action="{% url 'account:login_post' %}" method="post">
+<form action="{% url 'account:login' %}" method="post">
     {% csrf_token %}
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     <div class="form-group mb-2">
