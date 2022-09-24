@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 import datetime
 from django.conf import settings
-from .forms import PostForm, UserForm
+from .forms import PostForm
 from core.models import Post # import the settings file
 from django.core.files.storage import FileSystemStorage
 import hashlib, uuid, random
@@ -67,26 +67,4 @@ def create_post(request):
     #     "app_name": settings.APP_NAME
     # })
 
-# create user
-def create_user(request):
-    if request.method == 'POST':
-        # add the user to the database
-        user = UserForm(request.POST, request.FILES)
-        print('form', form.is_valid())
-        if user.is_valid():
-            salt = uuid.uuid4().hex + "salt_try"
-            hashed_password = hashlib.sha512(user.password + salt).hexdigest()
-            user.password_hashed = hashed_password
-            print('user: ', user)
-            user.save()
-            return HttpResponseRedirect('success')
-        pass
-    else:
-        form = PostForm()
-    return HttpResponse('not-valid')
-    # return render(request, "core/create_post.html", {
-    #     "title": "Create a Post",
-    #     "user_name": "ofcskn",
-    #     "app_name": settings.APP_NAME
-    # })
 

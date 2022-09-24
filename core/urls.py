@@ -7,7 +7,6 @@ from django.conf.urls.static import static
 app_name  = "core"
 urlpatterns = [
     # --------------------POST---------------------
-    path('create_user', views.create_user, name="create_user"),
     path('create_post', views.create_post, name="create_post"),
     # ---------------------------------------------
     # home page
