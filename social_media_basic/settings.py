@@ -22,6 +22,7 @@ APP_NAME = "Socipoki"
 # Application definition
 
 INSTALLED_APPS = [
+    'account',
     'core',
     'django.contrib.admin',
     'django.contrib.auth',
