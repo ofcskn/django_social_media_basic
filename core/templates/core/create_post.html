@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block pageTitle %}{{ title }}{% endblock %}
+
+{% block content %}
+<h2>Share a Post</h2>
+<form action="{% url 'core:create_post' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <div class="form-group mb-2">
+        <label for="description" class="form-label">Description</label>
+        <textarea rows="4" class="form-control" id="description" name="description" aria-describedby="description"
+            required></textarea>
+    </div>
+    <div class="input-group mb-2">
+        <input type="file" class="form-control" id="image" name="image" required
+            accept="image/png, image/jpg, image/jpeg">
+        <label class="input-group-text" for="image">Upload an Image</label>
+    </div>
+    <input type="submit" class="btn btn-outline-success" value="Create">
+</form>
+
+
+{% if uploaded_file_url %}
+<p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+{% endif %}
+
+{% endblock %}
