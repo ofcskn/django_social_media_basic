@@ -4,7 +4,10 @@ import datetime
 
 # Create your views here.
 def home(request):
-    return HttpResponse("this is infinity home/posts page")
+    section_title = "My"
+    return render(request, "core/index.html", {
+        "title": section_title
+    })
 
 def explore(request):
     return HttpResponse("this is explore page")
