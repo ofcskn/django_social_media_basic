@@ -31,3 +31,6 @@ def saved_posts_of_user(request, user_name):
 
 def liked_posts_of_user(request, user_name):
     return HttpResponse("Liked posts of " + user_name)
+
+def create_post(request, post):
+    return HttpResponse("Creating post page")
