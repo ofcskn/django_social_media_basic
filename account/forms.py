@@ -12,4 +12,4 @@ class UserRegisterForm(ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = User
-        fields = ['name', 'email', 'username']
+        fields = ['name', 'email', 'username', 'password_hash']
