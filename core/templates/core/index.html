@@ -4,14 +4,16 @@
 
 {% block content %}
 
-<h2>Posts</h2>
-
 {% if posts|length > 0 %}
+<div class="row">
     {% for post in posts %}
-        {% include 'partials/_post.html' with post=post %}
+    <div class="col-md-8">
+        {% include "core/partials/_post.html" with post=post %}
+    </div>
     {%endfor%}
+</div>
 {% else %}
-    <p>No posts</p>
+<p>No posts</p>
 {% endif %}
 
 {% endblock %}
