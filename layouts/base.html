@@ -11,12 +11,14 @@
     <!-- library css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
+    <!--style.css-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" >
 </head>
 
 <body>
     <!--navbar-->
     {% include "partials/_navbar.html" with user_name="user_name" app_name=app_name %}
-    <div class="container">
+    <div class="container app_content">
         <!-- the content block of the layout -->
         {% block content %} {% endblock %}
     </div>
