@@ -7,5 +7,8 @@ def register(request):
 def login(request):
     return render(request, 'account/login.html')
 
+def login_post(request):
+    return render(request, 'account/login.html')
+
 def profile(request):
     return render(request, 'account/profile.html')

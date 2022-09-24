@@ -1,1 +1,21 @@
-{%extends 'account_base.html'%}
+{% extends "account_base.html" %}
+{% load static %}
+{% block pageTitle %}Login{% endblock %}
+
+{% block content %}
+<h1 class="card-title">Login</h2>
+<form action="{% url 'account:login_post' %}" method="post">
+    {% csrf_token %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <div class="form-group mb-2">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" name="username" aria-describedby="username" required >
+    </div>
+    <div class="form-group mb-2">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" aria-describedby="password" required >
+    </div>
+    <input type="submit" class="btn btn-danger mt-2" value="Login">
+</form>
+
+{% endblock %}
