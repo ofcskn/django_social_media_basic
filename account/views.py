@@ -1,9 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth import authenticate
-import hashlib, uuid
-
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from account.models import User
 from .forms import UserLoginForm, UserRegisterForm
 
@@ -15,11 +14,10 @@ class LoginView(View):
         return render(request, self.template_name)
     def post(self, request):
         form = self.form_class(request.POST)
-        print(form['password'].value())
         if form.is_valid():
             user = authenticate(username=form['username'].value(), password=form['password'].value())
             if user is not None:
-                # A backend authenticated the credentials
+                login(request, user)
                 return HttpResponseRedirect("/")
             else:
                 # No backend authenticated the credentials
@@ -54,5 +52,6 @@ class RegisterView(View):
 
         return render(request, self.template_name, {'form': form})
 
+@login_required
 def profile(request):
     return render(request, 'account/profile.html')

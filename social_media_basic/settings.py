@@ -19,6 +19,8 @@ ALLOWED_HOSTS = []
 # My values
 APP_NAME = "Socipoki"
 
+LOGIN_URL = "/account/login"
+
 AUTH_USER_MODEL = "account.User"
 
 # Application definition

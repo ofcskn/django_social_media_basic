@@ -1,16 +1,14 @@
-from mimetypes import init
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 import datetime
 from django.conf import settings
 from .forms import PostForm
 from core.models import Post # import the settings file
-from django.core.files.storage import FileSystemStorage
-import hashlib, uuid, random
 from django.views import View
 from account.models import User
-from django.forms import inlineformset_factory
+from django.contrib.auth.decorators import login_required
 
+@login_required
 # Create your views here.
 def home(request):
     section_title = "My"
@@ -23,21 +21,25 @@ def home(request):
         "app_name": settings.APP_NAME
     })
 
+@login_required
 def explore(request):
     return HttpResponse("this is explore page")
 
+@login_required
 def get_user(request, user_name):
     return HttpResponse(user_name)
     
+@login_required
 def get_followers_of_user(request, user_name):
     return HttpResponse("Followers of " + user_name)
-        
+
+@login_required
 def saved_posts_of_user(request, user_name):
     return HttpResponse("Saved posts of " + user_name)
 
+@login_required
 def liked_posts_of_user(request, user_name):
     return HttpResponse("Liked posts of " + user_name)
-
 
 class CreatePostView(View):
     form_class = PostForm

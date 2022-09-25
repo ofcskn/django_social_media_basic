@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.decorators import login_required
 
 app_name  = "core"
 urlpatterns = [
@@ -19,7 +20,7 @@ urlpatterns = [
     # liked posts of the user
     path('<str:user_name>/posts/liked', views.liked_posts_of_user, name="liked_posts_of_user"),
     # create a post
-    path('posts/create', views.CreatePostView.as_view(), name="create"),
+    path('posts/create',  login_required(views.CreatePostView.as_view()), name="create"),
 ]
 
 if settings.DEBUG:
