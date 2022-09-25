@@ -27,9 +27,12 @@ class ProfileView(View):
         user = get_object_or_404(User, username=self.kwargs['user_name'])
         # check the user is following by authenticated user
         userIsFollowing = UserFollower.objects.filter(to=user,follower=request.user).count() > 0
+        # get followers of the user
+        followers_of = UserFollower.objects.filter(to=user, is_accepted=True).count()
+        following_of = UserFollower.objects.filter(follower=user, is_accepted=True).count()
         postsAll = Post.objects.order_by("-created_date").filter(posted_user=user)
         postsCount = postsAll.count()
-        return render(request, self.template_name, {"profile_user": user, "posts": postsAll[:postTakeCount], "postsCount": postsCount, 'userIsFollowing': userIsFollowing})
+        return render(request, self.template_name, {"profile_user": user, "posts": postsAll[:postTakeCount], "postsCount": postsCount, 'userIsFollowing': userIsFollowing,'following_of':following_of, 'followers_of':followers_of })
 
 @login_required()
 def follow_user(request, to_user_name):
