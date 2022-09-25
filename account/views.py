@@ -51,14 +51,10 @@ class RegisterView(View):
 
         return render(request, self.template_name, {'form': form})
 
-@login_required
+@login_required()
 def profile(request):
     return render(request, 'account/profile.html')
 
-@login_required
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect("/")
 
 @login_required()
 def change_password(request):
