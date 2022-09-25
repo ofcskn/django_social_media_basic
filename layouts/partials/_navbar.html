@@ -15,12 +15,7 @@
           <li class="nav-item">
             <a class="nav-link" href="/posts/create">Share a Post</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link btn btn-outline-success" href="{% url 'account:register' %}">Register</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link btn btn-success text-white" href="{% url 'account:login' %}">Login</a>
-          </li>
+          {% if user.is_authenticated %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Account
@@ -30,10 +25,20 @@
               <li><a class="dropdown-item" href="{{user_name}}/posts/liked">Liked</a></li>
               <li><a class="dropdown-item" href="{{user_name}}/posts/saved">Saved</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Log Out</a></li>
+              <li><a class="dropdown-item" href="{% url 'account:logout' %}">Log Out</a></li>
             </ul>
           </li>
-        </ul>
+          {% else %}
+          <li>
+            <li class="nav-item">
+              <a class="nav-link btn btn-outline-success" href="{% url 'account:register' %}">Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link btn btn-success text-white" href="{% url 'account:login' %}">Login</a>
+            </li>
+          </li>
+          {% endif %}
+              </ul>
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>

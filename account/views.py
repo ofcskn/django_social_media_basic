@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from account.models import User
 from .forms import UserLoginForm, UserRegisterForm
@@ -37,16 +37,12 @@ class RegisterView(View):
             email = form.cleaned_data['username']
             userName = form.cleaned_data['username']
             passwordEntered = form.cleaned_data['password']
-            hashedPassword = createHashedPassword(email, userName, passwordEntered)
             
             # check are there any username or email same
             usersByUsername = User.objects.filter(username=userName)
             usersByEmail = User.objects.filter(email=email)
             if usersByUsername.count() == 0 and usersByEmail.count() == 0:
                 # create process 
-                newUser = form.save(commit=False)
-                newUser.password_hash = hashedPassword
-                newUser.save()
                 return HttpResponseRedirect("/")
             return HttpResponse("there is a user")
 
@@ -55,3 +51,8 @@ class RegisterView(View):
 @login_required
 def profile(request):
     return render(request, 'account/profile.html')
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect("/")
