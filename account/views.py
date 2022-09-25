@@ -34,15 +34,19 @@ class RegisterView(View):
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['username']
+            email = form.cleaned_data['email']
             userName = form.cleaned_data['username']
-            passwordEntered = form.cleaned_data['password']
-            
+            password = form.cleaned_data['password']
+            print(password)
+
             # check are there any username or email same
             usersByUsername = User.objects.filter(username=userName)
             usersByEmail = User.objects.filter(email=email)
             if usersByUsername.count() == 0 and usersByEmail.count() == 0:
                 # create process 
+                user = form.save()
+                user.set_password(password)
+                user.save()
                 return HttpResponseRedirect("/")
             return HttpResponse("there is a user")
 
