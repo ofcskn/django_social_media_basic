@@ -35,3 +35,26 @@
     font-size: 20px;
     color: rgb(46, 46, 46);
 }
+.profile_avatar {
+    padding: 50px;
+}
+.profile_avatar img{
+    width: 100%;
+    object-fit: cover;
+}
+
+.profile_statistics{
+    margin:0px 0 0px 0px;
+}
+.profile_statistics ul{
+    display:flex;
+    list-style:none;
+    justify-content:space-between;
+    padding:0;
+}
+.profile_statistics ul li{
+    margin-right:10px;
+}
+.profile_statistics ul li span{
+    font-weight:bold;
+}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block pageTitle %}{{user.username}} Profile{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="row align-items-center">
+        <div class="col-md-4 profile_avatar">
+            {% if user.avatar != "" %}
+            <img src="/media/profile/{{user.avatar}}" alt="{{user.username}} Profile">
+            {% else %}
+            <img src="{% static 'img/default-profile.png' %}" alt="{{user.username}} Profile">
+            {%endif%}
+        </div>
+        <div class="col-md-8 profile_content">
+            <h1>@{{user.username}}</h1>
+            <div class="profile_statistics">
+                <ul>
+                    <li><span>{{postsCount}}</span> Posts</li>
+                    <li><span>0</span> Following</li>
+                    <li><span>0</span> Followers</li>
+                </ul>
+            </div>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores tenetur impedit ad qui dicta ex
+                voluptate, aspernatur, ipsum illo, minima perferendis aut? Accusantium facilis repellat animi sed rerum
+                minus blanditiis.</p>
+        </div>
+        <div class="col-md-12 profile_posts">
+            {% if posts|length > 0 %}
+            <div class="row">
+                {% for post in posts %}
+                <div class="col-md-4">
+                    {% include "core/partials/_post_profile.html" with post=post %}
+                </div>
+                {%endfor%}
+            </div>
+            {% else %}
+            <p>No posts from @{{user.username}}</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

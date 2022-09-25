@@ -5,7 +5,11 @@
         <div class="card_overlay">
             <a href="{% url 'core:get_user' user_name=post.posted_user.username %}" class="card_image__profile">
                 <div class="card_image__avatar">
-                    <img src="{% static 'media/{{post.posted_user.avatar}}' %}" alt="{{post.posted_user.username}} Profile">
+                    {% if user.avatar != "" %}
+                    <img src="/media/profile/{{post.posted_user.avatar}}" alt="{{post.posted_user.username}} Profile">
+                    {% else %}
+                    <img src="{% static 'img/default-profile.png' %}" alt="{{post.posted_user.username}} Profile">
+                    {%endif%}
                 </div>
                 {{post.posted_user.username}}
             </a>
