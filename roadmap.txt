@@ -1,3 +1,4 @@
 Roadmap
-    - user detail page []
+    - user detail page [x]
     - explore page []
+    - user followers
