@@ -1,17 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.http import HttpResponseRedirect, HttpResponse
-
+from django.contrib.auth import authenticate
 import hashlib, uuid
 
 from account.models import User
 from .forms import UserLoginForm, UserRegisterForm
-
-def createHashedPassword(email, username, password):
-    # create salt for passwords
-    salt = "salt1" + email + "salt2" + username + "salt3"
-    hashed_password = hashlib.sha256((password + salt).encode()).hexdigest()
-    return hashed_password
 
 # Create your views here.
 class LoginView(View):
@@ -21,19 +15,16 @@ class LoginView(View):
         return render(request, self.template_name)
     def post(self, request):
         form = self.form_class(request.POST)
+        print(form['password'].value())
         if form.is_valid():
-            userName = form.cleaned_data['username']
-            passwordEntered = form.cleaned_data['password']
-
-            # get user from the database
-            user = get_object_or_404(User,username=userName)
-            hashedPassword = createHashedPassword(user.email, user.username, passwordEntered)
-
-            if hashedPassword == user.password_hash:          
-                # add user login log to the database (task)
+            user = authenticate(username=form['username'].value(), password=form['password'].value())
+            if user is not None:
+                # A backend authenticated the credentials
                 return HttpResponseRedirect("/")
             else:
-                return HttpResponse("password-wrong")
+                # No backend authenticated the credentials
+                return HttpResponse("wrong")
+
 
         return render(request, self.template_name, {'form': form})
 
