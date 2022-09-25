@@ -47,12 +47,11 @@ class CreatePostView(View):
     def get(self, request):
         return render(request, self.template_name)
     def post(self, request):
-        userId = 1 # constant for now
-        user = User.objects.get(pk=userId)
+        current_user = request.user
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             # create process
-            post = Post.objects.create(description=form['description'].value(),image=form['image'].value(), posted_user_id=user)
+            post = Post.objects.create(description=form['description'].value(),image=form['image'].value(), posted_user=current_user)
             post.save()
             return HttpResponseRedirect("/")
 

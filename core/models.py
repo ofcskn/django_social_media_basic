@@ -18,7 +18,7 @@ class PathAndRename(object):
         # return the whole path to the file
         return os.path.join(self.path, filename)
 
-path_and_rename = PathAndRename("/posts")
+path_and_rename = PathAndRename("posts/")
 
 class Post(models.Model):
     description = models.CharField(max_length=2056)

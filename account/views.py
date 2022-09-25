@@ -37,7 +37,6 @@ class RegisterView(View):
             email = form.cleaned_data['email']
             userName = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            print(password)
 
             # check are there any username or email same
             usersByUsername = User.objects.filter(username=userName)
