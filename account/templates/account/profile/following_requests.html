@@ -12,9 +12,32 @@
                 <div class="fw-bold">@{{req.follower.username}}</div>
                 {{req.follower.first_name}} {{req.follower.last_name}}
             </div>
-            <span class="badge bg-primary rounded-pill">Accept</span>
+            {% if req.is_accepted == True %}
+            <span>Following</span>
+            {% else %}
+            <button type="button" class="accept_request__btn btn btn-sm bg-success text-white"
+                data-url="{% url 'account:accept_following_request' id=req.pk %}">Accept</button>
+            {%endif%}
         </li>
         {% endfor%}
     </ol>
 </div>
+{% endblock %}
+
+{% block my_scripts %}
+<script>
+    $(".accept_request__btn").click(function () {
+        var $button = $(this);
+        var form_url = $(this).data("url");
+        $.ajax({
+            url: form_url,
+            method: "POST",
+            data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
+            success: function (data) {
+                console.log(data)
+            }
+        });
+
+    });
+</script>
 {% endblock %}

@@ -69,12 +69,17 @@ def following_requests(request):
 
 @login_required()
 def accept_following_request(request, id):
-    current_user = request.user
-    # get Userfollower by the logged user
-    userFollower = get_object_or_404(UserFollower,pk=id)
-    # check the folowing request is for current_user
-    if userFollower.to == current_user:
-        # update is_acccepted by filtering
-        UserFollower.objects.filter(pk=id, is_accepted=False, to=current_user).update(is_accepted=True)
+    print("id", id)
+    if request.method == "POST":
+        current_user = request.user
+        # get Userfollower by the logged user
+        userFollower = get_object_or_404(UserFollower,pk=id)
+        # check the folowing request is for current_user
+        if userFollower.to == current_user:
+            # update is_acccepted by filtering
+            UserFollower.objects.filter(pk=id, is_accepted=False, to=current_user).update(is_accepted=True)
+            return HttpResponse("success")
+        else:
+            return HttpResponse("bad-request")
     else:
-        return HttpResponse("bad-request")
+        return HttpResponse('you need to post')
