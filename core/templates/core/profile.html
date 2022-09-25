@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-8 profile_content">
             <div class="profile_top d-flex justify-content-between">
-                <h1>@{{user.username}}</h1>
+                <h1>@{{profile_user.username}}</h1>
                 <div class="profile_top__actions">
                     {% if user.is_authenticated == True and user == profile_user %}
                     <a href="{% url 'account:profile' %}">Edit Profile</a>

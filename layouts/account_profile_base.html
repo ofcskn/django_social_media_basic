@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block pageTitle %}Edit Profile{% endblock %}
+
+
+{% block content %}
+<h1 class="mb-3">Edit</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item"><a class="text-muted" href="{% url 'account:profile'%}">Edit Profile</a>
+                </li>
+                <li class="list-group-item"><a class="text-muted" href="{% url 'account:change_password'%}">Change
+                        Password</a></li>
+                <li class="list-group-item"><a class="text-muted" href="{% url 'account:following_requests'%}">Who want
+                        to follow me?</a></li>
+                <li class="list-group-item"><a class="text-muted" href="{% url 'account:logout'%}">Log out</a></li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            {% block content_sub %}{% endblock %}
+        </div>
+    </div>
+    {% endblock %}

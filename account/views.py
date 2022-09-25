@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from account.models import User
+from account.models import User, UserFollower
 from .forms import UserLoginForm, UserRegisterForm
 
 # Create your views here.
@@ -59,3 +59,26 @@ def profile(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect("/")
+
+@login_required()
+def change_password(request):
+    return HttpResponse('reset pass')
+
+
+@login_required()
+def following_requests(request):
+    # get all requests by the logged user
+    data = UserFollower.objects.filter(to=request.user).order_by("-date")
+    return render(request, 'account/profile/following_requests.html', {"data": data})
+
+@login_required()
+def accept_following_request(request, id):
+    current_user = request.user
+    # get Userfollower by the logged user
+    userFollower = get_object_or_404(UserFollower,pk=id)
+    # check the folowing request is for current_user
+    if userFollower.to == current_user:
+        # update is_acccepted by filtering
+        UserFollower.objects.filter(pk=id, is_accepted=False, to=current_user).update(is_accepted=True)
+    else:
+        return HttpResponse("bad-request")

@@ -1,0 +1,20 @@
+{% extends "account_profile_base.html" %}
+{% block pageTitle %}Following Requests{% endblock %}
+{% load static %}
+
+
+{% block content_sub %}
+<div>
+    <ol class="list-group list-group-numbered">
+        {% for req in data %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">@{{req.follower.username}}</div>
+                {{req.follower.first_name}} {{req.follower.last_name}}
+            </div>
+            <span class="badge bg-primary rounded-pill">Accept</span>
+        </li>
+        {% endfor%}
+    </ol>
+</div>
+{% endblock %}
