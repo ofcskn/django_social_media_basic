@@ -19,8 +19,6 @@ urlpatterns = [
     path('<str:user_name>/posts/saved', views.saved_posts_of_user, name="saved_posts_of_user"),
     # liked posts of the user
     path('<str:user_name>/posts/liked', views.liked_posts_of_user, name="liked_posts_of_user"),
-    # create a post
-    path('posts/create',  login_required(views.CreatePostView.as_view()), name="create"),
 ]
 
 if settings.DEBUG:

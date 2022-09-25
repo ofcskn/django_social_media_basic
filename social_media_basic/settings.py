@@ -26,6 +26,7 @@ AUTH_USER_MODEL = "account.User"
 # Application definition
 
 INSTALLED_APPS = [
+    'post',
     'account',
     'core',
     'django.contrib.admin',

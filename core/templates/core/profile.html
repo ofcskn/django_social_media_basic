@@ -13,7 +13,12 @@
             {%endif%}
         </div>
         <div class="col-md-8 profile_content">
-            <h1>@{{user.username}}</h1>
+            <div class="profile_top d-flex justify-content-between">
+                <h1>@{{user.username}}</h1>
+                <div class="profile_top__actions">
+                    <a href="{% url 'account:profile' %}">Edit Profile</a>
+                </div>
+            </div>
             <div class="profile_statistics">
                 <ul>
                     <li><span>{{postsCount}}</span> Posts</li>
