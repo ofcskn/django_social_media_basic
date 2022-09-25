@@ -1,8 +1,26 @@
 {% load static %}
 
 <div class="card mb-3">
-    <img src="media/{{post.image}}" class="card-img-top" alt="...">
+    <div class="card_image">
+        <div class="card_overlay">
+            <a href="{% url 'core:get_user' user_name=post.posted_user.username %}" class="card_image__profile">
+                <div class="card_image__avatar">
+                    <img src="{% static 'media/{{post.posted_user.avatar}}' %}" alt="{{post.posted_user.username}} Profile">
+                </div>
+                {{post.posted_user.username}}
+            </a>
+        </div>
+        <img src="media/{{post.image}}" class="card-img-top" alt="...">
+    </div>
     <div class="card-body">
-        <p class="card-text">{{post.description}}</p>
+        <div class="card_body__top d-flex justify-content-between">
+            <span class="card_date">{{post.created_date | date}}</span>
+        </div>
+        <div class="card_center">
+            <span class="card_description">{{post.description}}</span>
+        </div>
+        <div class="card_footer">
+
+        </div>
     </div>
 </div>
