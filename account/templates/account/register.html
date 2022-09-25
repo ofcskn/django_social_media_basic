@@ -23,7 +23,10 @@
         <label for="password" class="form-label">Password</label>
         <input type="password" class="form-control" name="password" aria-describedby="password" required >
     </div>
-    <input type="submit" class="btn btn-danger mt-2" value="Login">
+    <div class="d-flex justify-content-start">
+        <span>Do you have an account? <a href="{% url 'account:login' %}">Sign In Now</a></span>
+    </div>
+    <input type="submit" class="btn btn-danger mt-2" value="Register">
 </form>
 
 {% endblock %}
