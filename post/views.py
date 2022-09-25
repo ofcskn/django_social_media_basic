@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import  Post
 from .forms import PostForm
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 class DetailView(View):
@@ -16,8 +17,10 @@ class DetailView(View):
 class CreateView(View):
     form_class = PostForm
     template_name = 'post/create.html'
+    @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
+    @method_decorator(login_required)
     def post(self, request):
         current_user = request.user
         form = self.form_class(request.POST, request.FILES)

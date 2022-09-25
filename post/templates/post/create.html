@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
-{% block pageTitle %}{{ title }}{% endblock %}
+{% block pageTitle %}Create a Post{% endblock %}
 
 {% block content %}
 <h2>Share a Post</h2>
-<form action="{% url 'core:create' %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'post:create' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     <div class="form-group mb-2">

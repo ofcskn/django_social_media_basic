@@ -13,7 +13,7 @@
             <a class="nav-link" href="/explore">Explore</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/posts/create">Share a Post</a>
+            <a class="nav-link" href="{% url 'post:create' %}">Share a Post</a>
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item dropdown">
@@ -21,9 +21,10 @@
               Account
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{user_name}}">Profile</a></li>
-              <li><a class="dropdown-item" href="{{user_name}}/posts/liked">Liked</a></li>
-              <li><a class="dropdown-item" href="{{user_name}}/posts/saved">Saved</a></li>
+              <li><a class="dropdown-item" href="{% url 'core:get_user' user_name=user.username %}">@{{user.username}}</a></li>
+              <li><a class="dropdown-item" href="{% url 'account:profile' %}">Edit Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'core:liked_posts_of_user' user_name=user.username %}">Liked</a></li>
+              <li><a class="dropdown-item" href="{% url 'core:saved_posts_of_user' user_name=user.username %}">Saved</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="{% url 'account:logout' %}">Log Out</a></li>
             </ul>
