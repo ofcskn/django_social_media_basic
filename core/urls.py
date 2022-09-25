@@ -6,9 +6,6 @@ from django.conf.urls.static import static
 
 app_name  = "core"
 urlpatterns = [
-    # --------------------POST---------------------
-    path('create_post', views.create_post, name="create_post"),
-    # ---------------------------------------------
     # home page
     path('', views.home, name="home"),
     # posts from all users as random
@@ -22,7 +19,7 @@ urlpatterns = [
     # liked posts of the user
     path('<str:user_name>/posts/liked', views.liked_posts_of_user, name="liked_posts_of_user"),
     # create a post
-    path('posts/create', views.create, name="create"),
+    path('posts/create', views.CreatePostView.as_view(), name="create"),
 ]
 
 if settings.DEBUG:

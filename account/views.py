@@ -55,9 +55,9 @@ class RegisterView(View):
             usersByEmail = User.objects.filter(email=email)
             if usersByUsername.count() == 0 and usersByEmail.count() == 0:
                 # create process 
-                # need to change
-                form.cleaned_data['password_hash'] = hashedPassword
-                form.save()
+                newUser = form.save(commit=False)
+                newUser.password_hash = hashedPassword
+                newUser.save()
                 return HttpResponseRedirect("/")
             return HttpResponse("there is a user")
 

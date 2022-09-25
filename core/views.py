@@ -1,3 +1,4 @@
+from mimetypes import init
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 import datetime
@@ -6,6 +7,9 @@ from .forms import PostForm
 from core.models import Post # import the settings file
 from django.core.files.storage import FileSystemStorage
 import hashlib, uuid, random
+from django.views import View
+from account.models import User
+from django.forms import inlineformset_factory
 
 # Create your views here.
 def home(request):
@@ -34,37 +38,20 @@ def saved_posts_of_user(request, user_name):
 def liked_posts_of_user(request, user_name):
     return HttpResponse("Liked posts of " + user_name)
 
-# view for post creating
-def create(request):
-    return render(request, "core/create_post.html", {
-        "title": "Create a Post",
-        "user_name": "ofcskn",
-        "app_name": settings.APP_NAME
-    })
 
-# post for adding a post
-def create_post(request):
-    if request.method == 'POST':
-        # add the post to the database
-        form = PostForm(request.POST, request.FILES)
-        print('form', form.is_valid())
+class CreatePostView(View):
+    form_class = PostForm
+    template_name = 'core/create_post.html'
+    def get(self, request):
+        return render(request, self.template_name)
+    def post(self, request):
+        userId = 1 # constant for now
+        user = User.objects.get(pk=userId)
+        form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
-            salt = uuid.uuid4().hex
-            #hashed_file_name = hashlib.sha512(post_file.name + salt).hexdigest()
-            #fs = FileSystemStorage()
-            #filename = fs.save(hashed_file_name, post_file)
-            #uploaded_file_url = fs.url(filename)
-            #print(uploaded_file_url)
-            form.save()
-            return HttpResponseRedirect('success')
-        pass
-    else:
-        form = PostForm()
-    return HttpResponse('not-valid')
-    # return render(request, "core/create_post.html", {
-    #     "title": "Create a Post",
-    #     "user_name": "ofcskn",
-    #     "app_name": settings.APP_NAME
-    # })
+            # create process
+            post = Post.objects.create(description=form['description'].value(),image=form['image'].value(), posted_user_id=user)
+            post.save()
+            return HttpResponseRedirect("/")
 
-
+        return render(request, self.template_name, {'form': form})

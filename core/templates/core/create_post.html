@@ -4,7 +4,7 @@
 
 {% block content %}
 <h2>Share a Post</h2>
-<form action="{% url 'core:create_post' %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'core:create' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     <div class="form-group mb-2">
