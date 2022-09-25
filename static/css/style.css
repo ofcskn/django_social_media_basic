@@ -58,3 +58,7 @@
 .profile_statistics ul li span{
     font-weight:bold;
 }
+.profile_posts{
+    display: flex;
+    justify-content: center;
+}

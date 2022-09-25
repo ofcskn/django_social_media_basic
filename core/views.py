@@ -1,10 +1,11 @@
+from urllib import request
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import datetime
 from django.conf import settings
 from post.models import Post # import the settings file
 from django.views import View
-from account.models import User
+from account.models import User, UserFollower
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
@@ -23,13 +24,30 @@ class ProfileView(View):
     def get(self, request, *args, **kwargs):
         # constants
         postTakeCount = 9
-
         user = get_object_or_404(User, username=self.kwargs['user_name'])
-
+        # check the user is following by authenticated user
+        userIsFollowing = UserFollower.objects.filter(to=user,follower=request.user).count() > 0
         postsAll = Post.objects.order_by("-created_date").filter(posted_user=user)
         postsCount = postsAll.count()
-        return render(request, self.template_name, {"user": user, "posts": postsAll[:postTakeCount], "postsCount": postsCount})
+        return render(request, self.template_name, {"profile_user": user, "posts": postsAll[:postTakeCount], "postsCount": postsCount, 'userIsFollowing': userIsFollowing})
 
+@login_required()
+def follow_user(request, to_user_name):
+    if request.method == "POST":
+        currentUser = request.user 
+        toUser = get_object_or_404(User,username=to_user_name)
+        try:
+            old_following__request = UserFollower.objects.get(to=toUser, follower=currentUser)
+            # remove user request
+            old_following__request.delete()
+            return HttpResponse("canceled")     
+        except UserFollower.DoesNotExist:
+            # create user follower data
+            userFollower = UserFollower(to=toUser,follower=currentUser)
+            userFollower.save()
+            return HttpResponse("sent")
+    else:
+        return HttpResponse("failed-request")
 
 @login_required
 def explore(request):
