@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 app_name  = "core"
 urlpatterns = [
     # home page
-    path('', views.home, name="home"),
+    path('', login_required(views.HomeView.as_view()), name="home"),
     # posts from all users as random
     path('explore', views.explore, name="explore"),
     # profile of the user

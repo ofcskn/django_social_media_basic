@@ -8,18 +8,15 @@ from django.views import View
 from account.models import User
 from django.contrib.auth.decorators import login_required
 
-@login_required
 # Create your views here.
-def home(request):
-    section_title = "My"
-    # post list of the user (firstly)
-    posts = Post.objects.all()
-    return render(request, "core/index.html", {
-        "title": section_title,
-        "user_name": "ofcskn",
-        "posts": posts,
-        "app_name": settings.APP_NAME
-    })
+class HomeView(View):
+    template_name = 'core/index.html'
+    # order by descending posts and take take_count posts for initializing
+    take_count = 10
+    posts = Post.objects.order_by("-created_date")[:take_count]
+    def get(self, request):
+        return render(request, self.template_name, {"posts": self.posts})
+
 
 @login_required
 def explore(request):
