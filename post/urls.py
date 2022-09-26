@@ -9,6 +9,7 @@ app_name  = "post"
 urlpatterns = [
     path('<int:id>', views.DetailView.as_view(), name="detail"),
     path('create',  login_required(views.CreateView.as_view()), name="create"),
+    path('<int:id>/action/<str:action_name>',  login_required(views.ActionView.as_view()), name="action"),
 ]
 
 if settings.DEBUG:

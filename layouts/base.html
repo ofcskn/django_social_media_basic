@@ -33,6 +33,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
     {% block my_scripts %} {%endblock%}
+    <script>
+        $(".post_action__btn").click(function () {
+            var $button = $(this);
+            var form_url = $(this).data("url");
+            $.ajax({
+                url: form_url,
+                method: "POST",
+                data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
+                success: function (data) {
+                    $button.toggleClass("acted")
+                }
+            });
+
+        });
+    </script>
+
 </body>
 
 </html>

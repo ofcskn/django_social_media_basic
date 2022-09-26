@@ -27,7 +27,6 @@
     border-radius: 10px;
     background-color: #fff;
     color:#000;
-    padding:10px;
     text-decoration: none;
 }
 
@@ -61,4 +60,23 @@
 .profile_posts{
     display: flex;
     justify-content: center;
+}
+
+.post_action__btn{
+    
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+}
+.post_action__btn i{
+    font-size: 24px;
+    color: rgb(160, 160, 160);
+}
+.post_action__btn.like.acted i{
+    color:rgb(168, 0, 0);
+}
+
+.post_action__btn.save.acted i{
+    color:rgb(46, 46, 46);
 }

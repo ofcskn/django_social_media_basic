@@ -3,11 +3,12 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import datetime
 from django.conf import settings
-from post.models import Post # import the settings file
+from post.models import Post, PostAction # import the settings file
 from django.views import View
 from account.models import User, UserFollower
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.db.models import F, Sum
 
 # Create your views here.
 class HomeView(View):

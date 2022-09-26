@@ -3,6 +3,12 @@
 <div class="card mb-3">
     <div class="card_image">
         <div class="card_overlay">
+
+        </div>
+        <img src="media/{{post.image}}" class="card-img-top" alt="...">
+    </div>
+    <div class="card-body">
+        <div class="card_body__top d-flex justify-content-between align-items-center">
             <a href="{% url 'core:get_user' user_name=post.posted_user.username %}" class="card_image__profile">
                 <div class="card_image__avatar">
                     {% if user.avatar != "" %}
@@ -13,18 +19,16 @@
                 </div>
                 {{post.posted_user.username}}
             </a>
-        </div>
-        <img src="media/{{post.image}}" class="card-img-top" alt="...">
-    </div>
-    <div class="card-body">
-        <div class="card_body__top d-flex justify-content-between">
             <span class="card_date">{{post.created_date | date}}</span>
         </div>
-        <div class="card_center">
+        <div class="card_center my-3">
             <span class="card_description">{{post.description}}</span>
+            <b>{{post.total_likes}}</b>
         </div>
         <div class="card_footer">
-
+            <button type="button" class="post_action__btn like {% if True %}acted{% endif %}" data-url="{% url 'post:action' id=post.id action_name='like' %}"><i class="fas fa-heart"></i></button>
+            <button type="button" class="post_action__btn save {% if True %}acted{% endif %}" data-url="{% url 'post:action' id=post.id action_name='save' %}"><i class="fa fa-bookmark"></i></button>
         </div>
     </div>
 </div>
+

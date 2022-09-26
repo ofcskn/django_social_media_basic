@@ -2,8 +2,13 @@ Roadmap
     - user detail page [x]
     - explore page []
     - user followers [x]
-    - edit profile []
+    - edit profile [x]
+    - password reset [x]
     - Email confirmation []
+    - post comments []
+    - post like request []
+    - post save request []
 
 NOTES
     - Users can follow themselves. This is a problem. Solve it. []
+    - validation problems need to be fixed []
