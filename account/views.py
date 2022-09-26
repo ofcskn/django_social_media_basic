@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from account.models import User, UserFollower
-from .forms import UserLoginForm, UserRegisterForm
+from .forms import ProfileEditForm, UserLoginForm, UserRegisterForm
 
 # Create your views here.
 class LoginView(View):
@@ -51,9 +51,27 @@ class RegisterView(View):
 
         return render(request, self.template_name, {'form': form})
 
-@login_required()
-def profile(request):
-    return render(request, 'account/profile.html')
+class ProfileEditView(View):
+    form_class = ProfileEditForm
+    template_name = 'account/profile/edit.html'
+    def get(self, request):
+        current_user = request.user
+        return render(request, self.template_name, {"data": current_user})
+    def post(self, request):
+        current_user = request.user
+        form = self.form_class(request.POST, instance=current_user)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            userName = form.cleaned_data['username']
+            # check are there any username or email same
+            usersByUsername = User.objects.filter(username=userName).exclude(pk=current_user.pk)
+            usersByEmail = User.objects.filter(email=email).exclude(pk=current_user.pk)
+            if usersByUsername.count() == 0 and usersByEmail.count() == 0:  
+                # update process 
+                form.save()
+            else:
+                return HttpResponse("there is a user")
+        return render(request, self.template_name, {'data': current_user})
 
 
 @login_required()
@@ -69,7 +87,6 @@ def following_requests(request):
 
 @login_required()
 def accept_following_request(request, id):
-    print("id", id)
     if request.method == "POST":
         current_user = request.user
         # get Userfollower by the logged user

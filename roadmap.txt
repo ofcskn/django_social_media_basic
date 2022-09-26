@@ -1,7 +1,9 @@
 Roadmap
     - user detail page [x]
     - explore page []
-    - user followers
+    - user followers [x]
+    - edit profile []
+    - Email confirmation []
 
 NOTES
     - Users can follow themselves. This is a problem. Solve it. []
