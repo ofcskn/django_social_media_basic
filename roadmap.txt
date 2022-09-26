@@ -1,13 +1,14 @@
 Roadmap
     - user detail page [x]
-    - explore page []
+    - explore page with ai []
     - user followers [x]
     - edit profile [x]
     - password reset [x]
     - Email confirmation []
     - post comments []
-    - post like request []
-    - post save request []
+    - post like request [x]
+    - post save request [x]
+    - users list page []
 
 NOTES
     - Users can follow themselves. This is a problem. Solve it. []

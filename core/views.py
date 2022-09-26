@@ -8,20 +8,31 @@ from django.views import View
 from account.models import User, UserFollower
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.db.models import F, Sum
+from django.db.models import F, Sum, Q
 
 # Create your views here.
 class HomeView(View):
     template_name = 'core/index.html'
+    @method_decorator(login_required)
+    def get(self, request):
+        take_count = 10
+        # order by descending posts and take take_count posts for initializing
+        posts = Post.objects.filter(~Q(posted_user=request.user)).order_by("-created_date")[:take_count]
+        return render(request, self.template_name, {"posts": posts})
+
+class ExploreView(View):
+    template_name = 'core/explore.html'
     # order by descending posts and take take_count posts for initializing
-    take_count = 10
-    posts = Post.objects.order_by("-created_date")[:take_count]
+    take_count = 5
+    posts = Post.objects.all().order_by("?")[:take_count]
+    @method_decorator(login_required)
     def get(self, request):
         return render(request, self.template_name, {"posts": self.posts})
 
 # profile view
 class ProfileView(View):
     template_name = 'core/profile.html'
+    @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         # constants
         postTakeCount = 9

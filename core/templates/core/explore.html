@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block pageTitle %}{{ title }}{% endblock %}
+{% block content %}
+
+{% if posts|length > 0 %}
+<div class="row">
+    {% for post in posts %}
+    <div class="col-md-4">
+        {% include "core/partials/_post_explore.html" with post=post %}
+    </div>
+    {%endfor%}
+</div>
+{% else %}
+<p>No posts</p>
+{% endif %}
+
+{% endblock %}  

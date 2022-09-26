@@ -30,7 +30,7 @@ def get_ip():
     return ip
 
 class User(AbstractUser):
-    password = models.CharField(max_length=64, blank=True)
+    password = models.CharField(max_length=128, blank=True)
     avatar = models.FileField(upload_to=path_and_rename_user_avatar, default="default.png")
 
 class UserFollower(models.Model):

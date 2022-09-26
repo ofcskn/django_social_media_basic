@@ -80,3 +80,8 @@
 .post_action__btn.save.acted i{
     color:rgb(46, 46, 46);
 }
+
+.post_card__img{
+    height: 300px;
+    object-fit: cover;
+}
