@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from account.models import User, UserFollower
-from .forms import ProfileEditForm, UserLoginForm, UserRegisterForm
+from .forms import ProfileChangePasswordForm, ProfileEditForm, UserLoginForm, UserRegisterForm
 
 # Create your views here.
 class LoginView(View):
@@ -73,10 +73,31 @@ class ProfileEditView(View):
                 return HttpResponse("there is a user")
         return render(request, self.template_name, {'data': current_user})
 
+class ProfileChangePasswordView(View):
+    form_class = ProfileChangePasswordForm
+    template_name = 'account/profile/change_password.html'
+    def get(self, request):
+        return render(request, self.template_name)
+    def post(self, request):
+        current_user = User.objects.get(pk=request.user.pk)
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            passwordOld = form.cleaned_data['old_password']
+            password = form.cleaned_data['password']
+            passwordRepeat = form.cleaned_data['password_repeat']
 
-@login_required()
-def change_password(request):
-    return HttpResponse('reset pass')
+            if request.user.check_password(passwordOld):
+                if passwordRepeat == password:
+                    # create new password
+                    current_user.set_password(password)
+                    current_user.save()
+                else:
+                    return HttpResponse("your-password-not-equal")
+            else:
+                print("old-password-wrong")
+                return HttpResponse("old-password-wrong")
+
+        return render(request, self.template_name)
 
 
 @login_required()

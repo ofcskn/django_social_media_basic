@@ -16,3 +16,8 @@ class ProfileEditForm(ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email']
+
+class ProfileChangePasswordForm(forms.Form):
+    old_password = forms.CharField(max_length=32)
+    password = forms.CharField(max_length=32)
+    password_repeat = forms.CharField(max_length=32)

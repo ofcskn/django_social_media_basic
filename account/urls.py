@@ -11,7 +11,7 @@ urlpatterns = [
     path('login', views.LoginView.as_view(), name="login",),
     path('register', views.RegisterView.as_view(), name="register"),
     path('profile', login_required(views.ProfileEditView.as_view()), name="profile"),
-    path('change/password', views.change_password, name="change_password"),
+    path('change/password', login_required(views.ProfileChangePasswordView.as_view()), name="change_password"),
     path('logout', LogoutView.as_view(next_page=settings.LOGOUT_REDIRECT_URL), name="logout"),
     # list following request by the logged user
     path('requests/following', views.following_requests, name="following_requests"),
