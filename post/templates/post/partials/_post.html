@@ -13,10 +13,13 @@
             <a href="{% url 'core:get_user' user_name=post.posted_user.username %}" class="card_image__profile">
                 <div class="card_image__avatar">
                     <img width="50" height="50"
+                    class="rounded-circle"
                         src="/media/{% if post.posted_user.avatar != None and post.posted_user.avatar != '' %}{{post.posted_user.avatar}}{% else %}profile/default.png{% endif %}"
                         alt="">
                 </div>
-                {{post.posted_user.username}}
+                <span class="ms-2">
+                    <b>@{{post.posted_user.username}}</b>
+                </span>
             </a>
             <span class="card_date">{{post.created_date | date}}</span>
         </div>

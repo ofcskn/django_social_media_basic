@@ -32,28 +32,29 @@ def get_ip():
 
 class User(AbstractUser):
     password = models.CharField(max_length=128, blank=True)
-    avatar = models.ImageField(upload_to=path_and_rename_user_avatar, blank=True)
+    avatar = models.ImageField(upload_to=path_and_rename_user_avatar, blank=True, null=True, editable=True)
     about_me = models.CharField(max_length=2048, blank=True)
     website_url = models.URLField(max_length=256, blank=True)
     
     def save(self, *args, **kwargs):
-        if not self.avatar:
-            return            
-
-        try:
-            old_avatar = User.objects.get(pk=self.pk).avatar
-            print("old", old_avatar.path)
-            os.remove(old_avatar.path)
-        except:
-            print("error")
-        quality_value = 100
+        old_avatar= User.objects.get(pk=self.pk).avatar
         super(User, self).save(*args, **kwargs)
-        image = Image.open(self.avatar)
-        (width, height) = image.size     
-        size = ( 200, 200)
-        image = image.resize(size, Image.LINEAR)
-        image.save(self.avatar.path, quality=quality_value)
-
+        if self.avatar == None:
+            return  
+        elif old_avatar != self.avatar:
+            if old_avatar != None:
+                try:
+                    # remove old avatar from file storage
+                    os.remove(path=old_avatar.path)
+                except:
+                    print("error")
+            quality_value = 100
+            image = Image.open(self.avatar)
+            (width, height) = image.size     
+            size = ( 200, 200)
+            image = image.resize(size, Image.LINEAR)
+            image.save(self.avatar.path, quality=quality_value)    
+    
 class UserFollower(models.Model):
     follower = models.ForeignKey(User,on_delete=models.CASCADE, related_name='follower')
     to = models.ForeignKey(User,on_delete=models.CASCADE, related_name='following')

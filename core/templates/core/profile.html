@@ -24,7 +24,8 @@
             {% if profile_user.avatar != "" %}
             <img width="200" height="200" src="/media/{{profile_user.avatar}}" alt="{{profile_user.username}} Profile">
             {% else %}
-            <img width="200" height="200" src="{% static 'img/default-profile.png' %}" alt="{{profile_user.username}} Profile">
+            <img width="200" height="200" src="{% static 'img/default-profile.png' %}"
+                alt="{{profile_user.username}} Profile">
             {%endif%}
         </div>
         <div class="col-md-8 profile_content">
@@ -83,9 +84,9 @@
                 <div class="tab-pane fade {% if request.path == posts_url %}show active{% endif %}" id="home"
                     role="tabpanel" aria-labelledby="home-tab">
                     {% if posts|length > 0 %}
-                    <div class="row">
+                    <div class="grid">
                         {% for post in posts %}
-                        <div class="col-md-4">
+                        <div class="grid-item col-md-4">
                             {% include "core/partials/_post_profile.html" with post=post %}
                         </div>
                         {%endfor%}
@@ -100,9 +101,9 @@
                     <div class="tab_top__desc">
                         <p>{{postActions.saved|length}} posts are saved</p>
                     </div>
-                    <div class="row">
+                    <div class="grid">
                         {% for postAction in postActions.saved %}
-                        <div class="col-md-4">
+                        <div class="grid-item col-md-4">
                             {% include "core/partials/_post_profile.html" with post=postAction.post %}
                         </div>
                         {%endfor%}
@@ -117,9 +118,9 @@
                     <div class="tab_top__desc">
                         <p>{{postActions.liked|length}} posts are liked</p>
                     </div>
-                    <div class="row">
+                    <div class="grid">
                         {% for postAction in postActions.liked %}
-                        <div class="col-md-4">
+                        <div class="grid-item col-md-4">
                             {% include "core/partials/_post_profile.html" with post=postAction.post %}
                         </div>
                         {%endfor%}
@@ -164,7 +165,17 @@
 {% endblock %}
 
 {% block my_scripts %}
+<script src="{% static '/lib/masonry/masonry.pkgd.min.js' %}"></script>
 <script>
+    // Masonry
+    $('.grid').masonry({
+        // set itemSelector so .grid-sizer is not used in layout
+        itemSelector: '.grid-item',
+        // use element for option
+        percentPosition: true,
+        horizontalOrder: true
+    })
+
     $("#follow_to_user").click(function () {
         var $button = $(this);
         var form_url = $(this).data("url");

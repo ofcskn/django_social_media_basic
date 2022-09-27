@@ -10,7 +10,7 @@ import socket
 
 from account.models import User
 from tag.models import Tag
-
+from slugify import slugify
 
 @deconstructible
 class PathAndRename(object):
@@ -31,12 +31,11 @@ def get_ip():
     ip=socket.gethostbyname(hostname)
     return ip
 
-path_and_rename = PathAndRename("posts/")
 
 class Post(models.Model):
     description = models.CharField(max_length=2056)
     posted_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    image = models.FileField(upload_to=path_and_rename, blank=True)
+    image = models.FileField(upload_to=PathAndRename("posts/"), blank=True)
     created_date = models.DateTimeField(default= datetime.now)
     tags = models.ManyToManyField(Tag)
     
@@ -44,14 +43,24 @@ class Post(models.Model):
         if not self.image:
             return            
 
-        quality_value = 90
+        upload_sizes = [(1500,1500), (500,500), (250,250),(0,0)] # 0x0 is for original size
         super(Post, self).save(*args, **kwargs)
-        image = Image.open(self.image)
-        (width, height) = image.size     
-        size = ( 1500, 1500)
-        image = image.resize(size, Image.ANTIALIAS)
-        image.save(self.image.path, "jpeg", optimize=True, quality=quality_value)    
-    
+
+        normalPathWithoutExtension = os.path.splitext(self.image.path)[0]
+        extension = os.path.splitext(self.image.path)[1]
+        print("extension",extension)
+        for size in upload_sizes:   
+            image = Image.open(self.image)
+            if size != (0, 0):
+                # upload alternative images
+                upload_path = normalPathWithoutExtension + "x" + str(size[0]) + "x" + str(size[1]) + extension
+                image = image.resize(size, Image.LINEAR)
+            else:
+                # upload original image
+                upload_path =   normalPathWithoutExtension + extension
+                print(upload_path)
+            image.save(upload_path)    
+        
     @property
     def total_like_count(self):
         return PostAction.objects.filter(post=self, action_number=0).count()

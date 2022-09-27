@@ -50,7 +50,7 @@
 .profile_avatar img {
     object-fit: cover;
     border-radius: 50%;
-    
+
 }
 
 .profile_statistics {
@@ -96,11 +96,6 @@
 
 .post_action__btn.save.acted i {
     color: rgb(46, 46, 46);
-}
-
-.post_card__img {
-    height: 300px;
-    object-fit: cover;
 }
 
 .profile_avatar {
@@ -196,7 +191,8 @@ a.deco-none {
 .sidebar_title {
     font-size: 24px;
 }
-.sidebar_title::after{
+
+.sidebar_title::after {
     display: block;
     content: '';
     height: 1px;
@@ -205,20 +201,30 @@ a.deco-none {
     margin-top: 6px;
 }
 
-#profile_tabs{
+#profile_tabs {
     display: flex;
     justify-content: center;
 }
 
-#profile_tabs_content{
-    padding:10px 0;
+#profile_tabs_content {
+    padding: 10px 0;
 }
 
-.post_action__button{
+.post_action__button {
     display: flex;
 }
-.post_action__num{
+
+.post_action__num {
     font-size: 24px;
     font-weight: 400;
     margin-left: 6px;
+}
+
+.grid-item{
+    padding: 8px;
+}
+
+.grid-item .card{
+    overflow: hidden;
+    border-radius: 10px;
 }

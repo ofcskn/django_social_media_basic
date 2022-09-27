@@ -4,9 +4,9 @@
 {% block content %}
 
 {% if posts|length > 0 %}
-<div class="row">
+<div class="grid">
     {% for post in posts %}
-    <div class="col-md-4">
+    <div class="grid-item col-md-4">
         {% include "core/partials/_post_explore.html" with post=post %}
     </div>
     {%endfor%}
@@ -15,4 +15,18 @@
 <p>No posts</p>
 {% endif %}
 
-{% endblock %}  
+{% endblock %}
+
+{% block my_scripts %}
+<script src="{% static '/lib/masonry/masonry.pkgd.min.js' %}"></script>
+<script>
+    // Masonry
+    $('.grid').masonry({
+        // set itemSelector so .grid-sizer is not used in layout
+        itemSelector: '.grid-item',
+        // use element for option
+        percentPosition: true,
+        horizontalOrder: true
+    })
+</script>
+{% endblock %}
