@@ -18,7 +18,7 @@
                         <h5 class="card-title">{{user.first_name}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{user.username}}</h6>
                     </div>
-                    <img width="50" height="50" src="/media/{% if profile_user.avatar != '' %}{{user.avatar}}{% else %}/profile/default.png{% endif %}" alt="">
+                    <img width="50" height="50" src="/media/{% if profile_user.avatar != None and profile_user.avatar != '' %}{{user.avatar}}{% else %}profile/default.png{% endif %}" alt="">
                 </a>
                 <a href="{% url 'account:profile' %}" class="card-link">Edit Profile</a>
                 <a href="#" class="card-link">Followers</a>

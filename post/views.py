@@ -2,9 +2,18 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
+from slugify import slugify
+from tag.models import Tag
 from .models import  Post, PostAction
 from .forms import PostForm
 from django.utils.decorators import method_decorator
+import re
+
+# functions 
+# get tags from post descriptions
+def getTagsFromText(text):
+    arrayWithHastag = re.findall(r'(?:^|\s)(#\w+)', text)
+    return [s.strip('#') for s in arrayWithHastag]
 
 # Create your views here.
 class DetailView(View):
@@ -25,8 +34,26 @@ class CreateView(View):
         current_user = request.user
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
+            # remove tags from description after adding to the database
+            description_without_tags = form['description'].value()
             # create process
             post = Post.objects.create(description=form['description'].value(),image=form['image'].value(), posted_user=current_user)
+            print("saved")
+            # create tags by post description
+            tagNames = getTagsFromText(form.cleaned_data['description'])
+            for tagName in tagNames:
+                description_without_tags = description_without_tags.replace("#" + tagName, "")
+                try:
+                    tag_entity = Tag.objects.get(name=tagName)
+                    post.tags.add(tag_entity)
+                except Tag.DoesNotExist:
+                    permalinkOfTag = slugify(tagName)
+                    # save tags to the database
+                    tag_new = Tag.objects.create(name=tagName, permalink=permalinkOfTag)
+                    tag_new.save()
+                    post.tags.add(tag_new)
+            # post.description = description_without_tags
+            post.description = description_without_tags
             post.save()
             return HttpResponseRedirect("/")
 
