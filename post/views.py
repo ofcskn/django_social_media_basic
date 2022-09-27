@@ -38,7 +38,6 @@ class CreateView(View):
             description_without_tags = form['description'].value()
             # create process
             post = Post.objects.create(description=form['description'].value(),image=form['image'].value(), posted_user=current_user)
-            print("saved")
             # create tags by post description
             tagNames = getTagsFromText(form.cleaned_data['description'])
             for tagName in tagNames:

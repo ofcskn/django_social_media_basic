@@ -1,95 +1,109 @@
-.app_content{
+.app_content {
     min-height: 100vh;
 }
-.card_image{
+
+.card_image {
     position: relative;
 }
-.card_overlay{
+
+.card_overlay {
     position: absolute;
-    top:10px;
+    top: 10px;
     left: 10px;
 }
-.card_image__avatar{
+
+.card_image__avatar {
     border-radius: 50%;
     margin-right: 4px;
     width: 32px;
     height: 32px;
 }
-.card_image__avatar img{
+
+.card_image__avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-.card_image__profile{
+
+.card_image__profile {
     display: flex;
     flex-direction: row;
     align-items: center;
     border-radius: 10px;
     background-color: #fff;
-    color:#000;
+    color: #000;
     text-decoration: none;
 }
 
-.card_description{
+.card_description {
     font-size: 20px;
     color: rgb(46, 46, 46);
 }
+
 .profile_avatar {
     padding: 50px;
 }
-.profile_avatar img{
+
+.profile_avatar img {
     width: 100%;
     object-fit: cover;
 }
 
-.profile_statistics{
-    margin:0px 0 0px 0px;
+.profile_statistics {
+    margin: 0px 0 0px 0px;
 }
-.profile_statistics ul{
-    display:flex;
-    list-style:none;
-    justify-content:space-between;
-    padding:0;
+
+.profile_statistics ul {
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+    padding: 0;
 }
-.profile_statistics ul li{
-    margin-right:10px;
+
+.profile_statistics ul li {
+    margin-right: 10px;
 }
-.profile_statistics ul li span{
-    font-weight:bold;
+
+.profile_statistics ul li span {
+    font-weight: bold;
 }
-.profile_posts{
+
+.profile_posts {
     display: flex;
     justify-content: center;
 }
 
-.post_action__btn{
-    
+.post_action__btn {
+
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 8px;
 }
-.post_action__btn i{
+
+.post_action__btn i {
     font-size: 24px;
     color: rgb(160, 160, 160);
 }
-.post_action__btn.like.acted i{
-    color:rgb(168, 0, 0);
+
+.post_action__btn.like.acted i {
+    color: rgb(168, 0, 0);
 }
 
-.post_action__btn.save.acted i{
-    color:rgb(46, 46, 46);
+.post_action__btn.save.acted i {
+    color: rgb(46, 46, 46);
 }
 
-.post_card__img{
+.post_card__img {
     height: 300px;
     object-fit: cover;
 }
 
-.profile_avatar{
+.profile_avatar {
     position: relative;
 }
-.profile_avatar__overlay{
+
+.profile_avatar__overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -99,42 +113,87 @@
     align-items: center;
     justify-content: center;
 }
-.profile_avatar__overlay button{
-    border:none;
-    background:#000;
+
+.profile_avatar__overlay button {
+    border: none;
+    background: #000;
     border-radius: 50%;
     width: 50px;
     height: 50px;
 }
-.profile_avatar__overlay button i{
+
+.profile_avatar__overlay button i {
     color: #fff;
     font-size: 32px;
 }
 
 a.deco-none {
-    color:#000000 !important;
-    text-decoration:none;
+    color: #000000 !important;
+    text-decoration: none;
 }
 
-.home_tag__list{
+.home_tag__list {
     list-style: none;
     padding: 0;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     flex-wrap: wrap;
     margin-bottom: 0;
 }
-.home_tag__list li{
-    border:1px solid rgb(223, 223, 223);
+
+.home_tag__list li {
+    border: 1px solid rgb(223, 223, 223);
     margin-right: 5px;
     padding: 2px 8px;
-    background-color: rgb(223, 223, 223);
+    background-color: rgb(249 249 249);
     border-radius: 8px;
     margin-bottom: 5px;
 }
-.home_tag__list li a{
-    color:rgb(61, 61, 61);
+
+.home_tag__list li a {
+    color: rgb(61, 61, 61);
     font-size: 20px;
     font-weight: 500;
     text-decoration: none;
+}
+
+.suggested_users__list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.suggested_user__card {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.suggested_user__name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+.sidebar_card {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    padding: 20px 16px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.sidebar_title {
+    font-size: 24px;
+}
+.sidebar_title::after{
+    display: block;
+    content: '';
+    height: 1px;
+    width: 20%;
+    background-color: rgb(138, 138, 138);
+    margin-top: 6px;
 }

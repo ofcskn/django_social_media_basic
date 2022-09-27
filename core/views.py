@@ -21,7 +21,8 @@ class HomeView(View):
         # order by descending posts and take take_count posts for initializing
         posts = Post.objects.filter(~Q(posted_user=request.user)).order_by("-created_date")[:take_count]
         tags = Tag.objects.all()[:20]
-        return render(request, self.template_name, {"posts": posts, "tags": tags})
+        newUsers = User.objects.all().filter().order_by("-date_joined")[:20]
+        return render(request, self.template_name, {"posts": posts, "tags": tags, "newUsers": newUsers})
 
 class ExploreView(View):
     template_name = 'core/explore.html'
