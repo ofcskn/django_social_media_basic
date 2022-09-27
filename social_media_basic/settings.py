@@ -27,6 +27,7 @@ LOGOUT_REDIRECT_URL = "/"
 # Application definition
 
 INSTALLED_APPS = [
+    'tag',
     'post',
     'account',
     'core',
