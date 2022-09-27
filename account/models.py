@@ -31,7 +31,7 @@ def get_ip():
 
 class User(AbstractUser):
     password = models.CharField(max_length=128, blank=True)
-    avatar = models.FileField(upload_to=path_and_rename_user_avatar, default="default.png")
+    avatar = models.FileField(upload_to=path_and_rename_user_avatar, blank=True)
 
 class UserFollower(models.Model):
     follower = models.ForeignKey(User,on_delete=models.CASCADE, related_name='follower')

@@ -11,8 +11,8 @@
         <div class="card_body__top d-flex justify-content-between align-items-center">
             <a href="{% url 'core:get_user' user_name=post.posted_user.username %}" class="card_image__profile">
                 <div class="card_image__avatar">
-                    {% if user.avatar != "" %}
-                    <img src="/media/profile/{{post.posted_user.avatar}}" alt="{{post.posted_user.username}} Profile">
+                    {% if post.user.avatar != "" %}
+                    <img src="/media/{{post.posted_user.avatar}}" alt="{{post.posted_user.username}} Profile">
                     {% else %}
                     <img src="{% static 'img/default-profile.png' %}" alt="{{post.posted_user.username}} Profile">
                     {%endif%}

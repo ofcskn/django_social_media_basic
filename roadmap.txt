@@ -9,6 +9,8 @@ Roadmap
     - post like request [x]
     - post save request [x]
     - users list page []
+    - avatar uploading []
+    - 
 
 NOTES
     - Users can follow themselves. This is a problem. Solve it. []

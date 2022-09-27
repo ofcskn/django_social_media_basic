@@ -17,6 +17,11 @@ class ProfileEditForm(ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'username', 'email']
 
+class ProfileAvatarUploadForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['avatar']
+
 class ProfileChangePasswordForm(forms.Form):
     old_password = forms.CharField(max_length=32)
     password = forms.CharField(max_length=32)

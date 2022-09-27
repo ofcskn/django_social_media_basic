@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from account.models import User, UserFollower
-from .forms import ProfileChangePasswordForm, ProfileEditForm, UserLoginForm, UserRegisterForm
+from .forms import ProfileAvatarUploadForm, ProfileChangePasswordForm, ProfileEditForm, UserLoginForm, UserRegisterForm
 
 # Create your views here.
 class LoginView(View):
@@ -98,6 +98,18 @@ class ProfileChangePasswordView(View):
                 return HttpResponse("old-password-wrong")
 
         return render(request, self.template_name)
+
+class ProfileAvatarUploadView(View):
+    form_class = ProfileAvatarUploadForm
+    def post(self, request):
+        logged_user = User.objects.get(pk=request.user.pk)
+        form = self.form_class(request.POST, request.FILES, instance=logged_user)
+        if form.is_valid():
+            print(form.cleaned_data)
+            form.save()
+            return HttpResponse("success")
+        else:
+            return HttpResponse("not-valid")
 
 
 @login_required()
