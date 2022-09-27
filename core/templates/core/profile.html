@@ -2,7 +2,12 @@
 {% load static %}
 {% block pageTitle %}{{user.username}} Profile{% endblock %}
 
+
 {% block content %}
+
+{% url 'core:get_user' user_name=profile_user.username as posts_url %}
+{% url 'core:saved_posts_of_user' user_name=profile_user.username as saved_posts_url %}
+{% url 'core:liked_posts_of_user' user_name=profile_user.username as liked_posts_url %}
 <section class="container">
     <div class="row align-items-center">
         <div class="col-md-4 profile_avatar">
@@ -54,19 +59,78 @@
             <a class="" href="{{profile_user.website_url}}" target="_blank">{{profile_user.website_url}}</a>
             {% endif %}
         </div>
-        <div class="col-md-12 profile_posts">
-            {% if posts|length > 0 %}
-            <div class="row">
-                {% for post in posts %}
-                <div class="col-md-4">
-                    {% include "core/partials/_post_profile.html" with post=post %}
+        <div class="col-md-12">
+            <ul class="nav nav-tabs profile_tabs" id="profile_tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a href="{% url 'core:get_user' user_name=profile_user.username %}"
+                        class="nav-link {% if request.path == posts_url %}active{% endif %}" id="home-tab" role="tab"
+                        aria-controls="home" aria-selected="true">Posts</a>
+                </li>
+                {% if user.is_authenticated and profile_user == user%}
+                <li class="nav-item" role="presentation">
+                    <a href="{% url 'core:saved_posts_of_user' user_name=profile_user.username %}"
+                        class="nav-link {% if request.path == saved_posts_url %}active{% endif %}" id="saved_posts-tab"
+                        role="tab" aria-controls="saved_posts" aria-selected="false">Saved</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a href="{% url 'core:liked_posts_of_user' user_name=profile_user.username %}"
+                        class="nav-link {% if request.path == liked_posts_url %}active{% endif %}" id="liked_posts-tab"
+                        role="tab" aria-controls="liked_posts" aria-selected="false">Liked</a>
+                </li>
+                {% endif %}
+            </ul>
+            <div class="tab-content" id="profile_tabs_content">
+                <div class="tab-pane fade {% if request.path == posts_url %}show active{% endif %}" id="home"
+                    role="tabpanel" aria-labelledby="home-tab">
+                    {% if posts|length > 0 %}
+                    <div class="row">
+                        {% for post in posts %}
+                        <div class="col-md-4">
+                            {% include "core/partials/_post_profile.html" with post=post %}
+                        </div>
+                        {%endfor%}
+                    </div>
+                    {% else %}
+                    <p>No posts from @{{profile_user.username}}</p>
+                    {% endif %}
                 </div>
-                {%endfor%}
+                <div class="tab-pane {% if request.path == saved_posts_url %}show active{% endif %}" id="saved_posts"
+                    role="tabpanel" aria-labelledby="saved_posts-tab">
+                    {% if postActions.saved|length > 0 %}
+                    <div class="tab_top__desc">
+                        <p>{{postActions.saved|length}} posts are saved</p>
+                    </div>
+                    <div class="row">
+                        {% for postAction in postActions.saved %}
+                        <div class="col-md-4">
+                            {% include "core/partials/_post_profile.html" with post=postAction.post %}
+                        </div>
+                        {%endfor%}
+                    </div>
+                    {% else %}
+                    <p>No posts have been saved yet.</p>
+                    {% endif %}
+                </div>
+                <div class="tab-pane {% if request.path == liked_posts_url %}show active{% endif %}" id="liked_posts"
+                    role="tabpanel" aria-labelledby="liked_posts-tab">
+                    {% if postActions.liked|length > 0 %}
+                    <div class="tab_top__desc">
+                        <p>{{postActions.liked|length}} posts are liked</p>
+                    </div>
+                    <div class="row">
+                        {% for postAction in postActions.liked %}
+                        <div class="col-md-4">
+                            {% include "core/partials/_post_profile.html" with post=postAction.post %}
+                        </div>
+                        {%endfor%}
+                    </div>
+                    {% else %}
+                    <p>No posts have been liked yet.</p>
+                    {% endif %}
+                </div>
             </div>
-            {% else %}
-            <p>No posts from @{{profile_user.username}}</p>
-            {% endif %}
         </div>
+
     </div>
 </section>
 {% endblock %}

@@ -48,7 +48,7 @@ class SearchView(View):
 class ProfileView(View):
     template_name = 'core/profile.html'
     @method_decorator(login_required)
-    def get(self, request, *args, **kwargs):
+    def get(self, request, type="", *args, **kwargs):
         # constants
         postTakeCount = 9
         user = get_object_or_404(User, username=self.kwargs['user_name'])
@@ -57,9 +57,18 @@ class ProfileView(View):
         # get followers of the user
         followers_of = UserFollower.objects.filter(to=user, is_accepted=True).count()
         following_of = UserFollower.objects.filter(follower=user, is_accepted=True).count()
-        postsAll = Post.objects.order_by("-created_date").filter(posted_user=user)
-        postsCount = postsAll.count()
-        return render(request, self.template_name, {"profile_user": user, "posts": postsAll[:postTakeCount], "postsCount": postsCount, 'userIsFollowing': userIsFollowing,'following_of':following_of, 'followers_of':followers_of })
+        context = {"profile_user": user,'userIsFollowing': userIsFollowing,'following_of':following_of, 'followers_of':followers_of, "postActions": {} }
+        if type == "saved":
+            postsAllSaved = PostAction.objects.order_by("-date").filter(action_number=1,user=request.user)[:postTakeCount]
+            print(postsAllSaved)
+            context['postActions']['saved'] = postsAllSaved
+        elif type == "liked":
+            postsAllLiked = PostAction.objects.order_by("-date").filter(action_number=0,user=request.user)[:postTakeCount]
+            context['postActions']['liked'] = postsAllLiked
+        else:
+            postsAll = Post.objects.order_by("-created_date").filter(posted_user=user)[:postTakeCount]
+            context['posts'] = postsAll
+        return render(request, self.template_name, context)
 
 @login_required()
 def follow_user(request, to_user_name):
@@ -80,17 +89,5 @@ def follow_user(request, to_user_name):
         return HttpResponse("failed-request")
 
 @login_required
-def explore(request):
-    return HttpResponse("this is explore page")
-    
-@login_required
 def get_followers_of_user(request, user_name):
     return HttpResponse("Followers of " + user_name)
-
-@login_required
-def saved_posts_of_user(request, user_name):
-    return HttpResponse("Saved posts of " + user_name)
-
-@login_required
-def liked_posts_of_user(request, user_name):
-    return HttpResponse("Liked posts of " + user_name)

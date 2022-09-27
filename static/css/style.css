@@ -197,3 +197,12 @@ a.deco-none {
     background-color: rgb(138, 138, 138);
     margin-top: 6px;
 }
+
+#profile_tabs{
+    display: flex;
+    justify-content: center;
+}
+
+#profile_tabs_content{
+    padding:10px 0;
+}

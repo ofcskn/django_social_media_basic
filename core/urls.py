@@ -19,9 +19,9 @@ urlpatterns = [
     # followers of the user
     path('<str:user_name>/followers', views.get_followers_of_user, name="get_followers_of_user"),
     # saved posts of the user
-    path('<str:user_name>/saved', views.saved_posts_of_user, name="saved_posts_of_user"),
+    path('<str:user_name>/saved', views.ProfileView.as_view(), {"type": "saved"}, name="saved_posts_of_user"),
     # liked posts of the user
-    path('<str:user_name>/liked', views.liked_posts_of_user, name="liked_posts_of_user"),
+    path('<str:user_name>/liked', views.ProfileView.as_view(),{"type": "liked"}, name="liked_posts_of_user"),
     # follow the user
     path('<str:to_user_name>/follow', views.follow_user, name="follow_user"),
 ]
