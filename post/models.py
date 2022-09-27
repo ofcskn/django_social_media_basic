@@ -9,6 +9,7 @@ import socket
 from account.models import User
 from tag.models import Tag
 
+
 @deconstructible
 class PathAndRename(object):
 
@@ -36,6 +37,14 @@ class Post(models.Model):
     image = models.FileField(upload_to=path_and_rename, blank=True)
     created_date = models.DateTimeField(default= datetime.now)
     tags = models.ManyToManyField(Tag)
+    
+    @property
+    def total_like_count(self):
+        return PostAction.objects.filter(post=self, action_number=0).count()
+
+    @property
+    def total_save_count(self):
+        return PostAction.objects.filter(post=self, action_number=1).count()
 
 class PostAction(models.Model):
     action_number = models.IntegerField(default=0) # default (0) is for like action. (1) is for saving post

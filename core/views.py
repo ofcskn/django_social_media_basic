@@ -27,7 +27,7 @@ class HomeView(View):
 class ExploreView(View):
     template_name = 'core/explore.html'
     # order by descending posts and take take_count posts for initializing
-    take_count = 5
+    take_count = 9
     posts = Post.objects.all().order_by("?")[:take_count]
     @method_decorator(login_required)
     def get(self, request):

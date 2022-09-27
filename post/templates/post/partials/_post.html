@@ -1,4 +1,5 @@
 {% load static %}
+{% load post_action %}
 
 <div class="card mb-3">
     <div class="card_image">
@@ -30,11 +31,18 @@
                 </div>
                 {% endif %}
         </div>
-        <div class="card_footer">
-            <button type="button" class="post_action__btn like {% if True %}acted{% endif %}"
-                data-url="{% url 'post:action' id=post.id action_name='like' %}"><i class="fas fa-heart"></i></button>
-            <button type="button" class="post_action__btn save {% if True %}acted{% endif %}"
-                data-url="{% url 'post:action' id=post.id action_name='save' %}"><i class="fa fa-bookmark"></i></button>
+        <div class="card_footer d-flex justify-content-between">
+            <div class="post_action__button">
+                <button type="button" class="post_action__btn like {% if post|isLiked:user == True %}acted{% endif %}"
+                    data-url="{% url 'post:action' id=post.id action_name='like' %}"><i
+                        class="fas fa-heart"></i></button>
+                <span class="post_action__num">{{post.total_like_count}}</span>
+            </div>
+            <div class="post_action__button">
+                <button type="button" class="post_action__btn save {% if post|isSaved:user == True %}acted{% endif %}"
+                    data-url="{% url 'post:action' id=post.id action_name='save' %}"><i
+                        class="fa fa-bookmark"></i></button>
+            </div>
         </div>
     </div>
 </div>
