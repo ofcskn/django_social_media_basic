@@ -21,3 +21,7 @@ Roadmap
 NOTES
     - Users can follow themselves. This is a problem. Solve it. []
     - validation problems need to be fixed []
+
+BUGS
+    - after avatar uploading redirect url is not correct []
+    - 

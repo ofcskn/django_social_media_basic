@@ -22,8 +22,15 @@
             <span class="card_date">{{post.created_date | date}}</span>
         </div>
         <div class="card_center my-3">
+            <span class="post_likes__count">{{post.total_likes}}</b>
             <span class="card_description">{{post.description}}</span>
-            <b>{{post.total_likes}}</b>
+            {% if post.tags.all.count > 0 %}
+            <div class="tags_of_post">
+                {% for tag in post.tags.all %}
+                <a href="{% url 'tag:detail' tag_permalink=tag.permalink %}">#{{tag.name}}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
         <div class="card_footer">
             <button type="button" class="post_action__btn like {% if True %}acted{% endif %}" data-url="{% url 'post:action' id=post.id action_name='like' %}"><i class="fas fa-heart"></i></button>

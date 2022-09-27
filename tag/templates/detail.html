@@ -1,7 +1,0 @@
-{% extends "base.html" %}
-{% load static %}
-{% block pageTitle %}{{post.description}}{% endblock %}
-
-{% block content %}
-{% include "post/partials/_post.html" with post=post %}
-{% endblock %}

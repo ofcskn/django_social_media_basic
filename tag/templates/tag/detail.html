@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block pageTitle %}Posts related with {{tag.name}}{% endblock %}
+
+{% block content %}
+<div class="tag_top__card d-flex align-items-center justify-content-between mb-3">
+    <h1>#{{tag.name}}</h1>
+    <span class="total_posts"><b>{{posts.count}}</b> posts shared.</span>
+</div>
+{% if posts.all|length > 0 %}
+<div class="row">
+    {% for post in posts.all %}
+    <div class="col-md-4">
+        {% include "core/partials/_post_explore.html" with post=post %}
+    </div>
+    {%endfor%}
+</div>
+{% else %}
+<p>No posts</p>
+{% endif %}
+
+{% endblock %}

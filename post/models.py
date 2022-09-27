@@ -7,6 +7,7 @@ from django.utils.deconstruct import deconstructible
 import socket
 
 from account.models import User
+from tag.models import Tag
 
 @deconstructible
 class PathAndRename(object):
@@ -34,6 +35,7 @@ class Post(models.Model):
     posted_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.FileField(upload_to=path_and_rename, blank=True)
     created_date = models.DateTimeField(default= datetime.now)
+    tags = models.ManyToManyField(Tag)
 
 class PostAction(models.Model):
     action_number = models.IntegerField(default=0) # default (0) is for like action. (1) is for saving post
