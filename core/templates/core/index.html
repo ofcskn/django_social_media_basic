@@ -20,11 +20,19 @@
                     </div>
                     <img width="50" height="50" src="/media/{% if profile_user.avatar != None and profile_user.avatar != '' %}{{user.avatar}}{% else %}profile/default.png{% endif %}" alt="">
                 </a>
-                <a href="{% url 'account:profile' %}" class="card-link">Edit Profile</a>
-                <a href="#" class="card-link">Followers</a>
-                <a href="#" class="card-link">Following</a>
             </div>
         </div>
+        {% if tags.count > 0 %}
+        <div class="home_tags__card card mt-3">
+            <div class="card-body">
+                <ul class="home_tag__list">
+                    {% for tag in tags %}
+                    <li><a href="{% url 'tag:detail' tag_permalink=tag.permalink %}">{{tag.name}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% else %}

@@ -115,3 +115,26 @@ a.deco-none {
     color:#000000 !important;
     text-decoration:none;
 }
+
+.home_tag__list{
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+}
+.home_tag__list li{
+    border:1px solid rgb(223, 223, 223);
+    margin-right: 5px;
+    padding: 2px 8px;
+    background-color: rgb(223, 223, 223);
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+.home_tag__list li a{
+    color:rgb(61, 61, 61);
+    font-size: 20px;
+    font-weight: 500;
+    text-decoration: none;
+}
