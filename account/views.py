@@ -61,6 +61,7 @@ class ProfileEditView(View):
         current_user = request.user
         form = self.form_class(request.POST, instance=current_user)
         if form.is_valid():
+            print(form.cleaned_data['about_me'])
             email = form.cleaned_data['email']
             userName = form.cleaned_data['username']
             # check are there any username or email same

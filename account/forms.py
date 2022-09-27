@@ -15,7 +15,7 @@ class UserRegisterForm(ModelForm):
 class ProfileEditForm(ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email']
+        fields = ['first_name', 'last_name', 'username', 'email', 'about_me', 'website_url']
 
 class ProfileAvatarUploadForm(ModelForm):
     class Meta:

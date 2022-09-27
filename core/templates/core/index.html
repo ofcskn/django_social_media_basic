@@ -5,14 +5,30 @@
 
 {% if posts|length > 0 %}
 <div class="row">
-    {% for post in posts %}
     <div class="col-md-8">
+        {% for post in posts %}
         {% include "post/partials/_post.html" with post=post %}
+        {%endfor%}
     </div>
-    {%endfor%}
+    <div class="col-md-4">
+        <div class="profile_card__index card">
+            <div class="card-body">
+                <a href="{% url 'core:get_user' user_name=user.username %}" class="deco-none card_top d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title">{{user.first_name}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{user.username}}</h6>
+                    </div>
+                    <img width="50" height="50" src="/media/{% if profile_user.avatar != '' %}{{user.avatar}}{% else %}/profile/default.png{% endif %}" alt="">
+                </a>
+                <a href="{% url 'account:profile' %}" class="card-link">Edit Profile</a>
+                <a href="#" class="card-link">Followers</a>
+                <a href="#" class="card-link">Following</a>
+            </div>
+        </div>
+    </div>
 </div>
 {% else %}
 <p>No posts</p>
 {% endif %}
 
-{% endblock %}  
+{% endblock %}

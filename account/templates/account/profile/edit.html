@@ -23,6 +23,14 @@
         <label for="username" class="form-label">Username</label>
         <input type="text" class="form-control" name="username" aria-describedby="username"  value="{{data.username}}" required >
     </div>
+    <div class="form-group mb-2">
+        <label for="about_me" class="form-label">About me?</label>
+        <textarea rows="4" maxlength="2048" class="form-control" name="about_me" aria-describedby="about_me">{{data.about_me}}</textarea>
+    </div>
+    <div class="form-group mb-2">
+        <label for="website_url" class="form-label">Website Url</label>
+        <input type="text" class="form-control" name="website_url" aria-describedby="website_url"  value="{{data.website_url}}" maxlength="256" >
+    </div>
     <input type="submit" class="btn btn-danger mt-2" value="Update">
 </form>
 

@@ -40,16 +40,19 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="profile_statistics">
+            <div class="profile_statistics mt-2">
                 <ul>
                     <li><span>{{postsCount}}</span> Posts</li>
                     <li><span>{{following_of}}</span> Following</li>
                     <li><span>{{followers_of}}</span> Followers</li>
                 </ul>
             </div>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores tenetur impedit ad qui dicta ex
-                voluptate, aspernatur, ipsum illo, minima perferendis aut? Accusantium facilis repellat animi sed rerum
-                minus blanditiis.</p>
+            {% if profile_user.about_me != None and profile_user.about_me != "" %}
+            <p>{{profile_user.about_me}}</p>
+            {% endif %}
+            {% if profile_user.website_url != None and profile_user.website_url != "" %}
+            <a class="" href="{{profile_user.website_url}}" target="_blank">{{profile_user.website_url}}</a>
+            {% endif %}
         </div>
         <div class="col-md-12 profile_posts">
             {% if posts|length > 0 %}

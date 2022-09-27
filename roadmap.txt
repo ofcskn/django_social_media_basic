@@ -9,8 +9,14 @@ Roadmap
     - post like request [x]
     - post save request [x]
     - users list page []
-    - avatar uploading []
-    - 
+    - avatar uploading [x]
+    - related posts in the post detail []
+    - search for users, posts, tags []
+    - tags []
+    - stories []
+    - profile about us description and website url []
+    - liked and saved posts listing []
+    - tags for post sharing []
 
 NOTES
     - Users can follow themselves. This is a problem. Solve it. []
