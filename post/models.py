@@ -1,4 +1,6 @@
 from datetime import datetime
+from email.policy import default
+from enum import unique
 from pickletools import optimize
 from PIL import Image
 from django.db import models
@@ -11,6 +13,7 @@ import socket
 from account.models import User
 from tag.models import Tag
 from slugify import slugify
+
 
 @deconstructible
 class PathAndRename(object):
@@ -31,14 +34,14 @@ def get_ip():
     ip=socket.gethostbyname(hostname)
     return ip
 
-
 class Post(models.Model):
     description = models.CharField(max_length=2056)
     posted_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.FileField(upload_to=PathAndRename("posts/"), blank=True)
     created_date = models.DateTimeField(default= datetime.now)
     tags = models.ManyToManyField(Tag)
-    
+    hashed_permalink = models.CharField(max_length=16,unique=True)
+
     def save(self, *args, **kwargs):
         if not self.image:
             return            
@@ -48,7 +51,6 @@ class Post(models.Model):
 
         normalPathWithoutExtension = os.path.splitext(self.image.path)[0]
         extension = os.path.splitext(self.image.path)[1]
-        print("extension",extension)
         for size in upload_sizes:   
             image = Image.open(self.image)
             if size != (0, 0):

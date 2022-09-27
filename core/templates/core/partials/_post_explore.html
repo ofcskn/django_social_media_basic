@@ -1,7 +1,7 @@
 {% load static %}
 
 
-<a href="{% url 'post:detail' id=post.pk %}">
+<a href="{% url 'post:detail' permalink=post.hashed_permalink %}">
     <div class="post_card card">
         <div class="card_image">
             <img src="media/{{post.image}}" class="post_card__img card-img-top" alt="...">
