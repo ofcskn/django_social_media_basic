@@ -33,6 +33,17 @@ class ExploreView(View):
     def get(self, request):
         return render(request, self.template_name, {"posts": self.posts})
 
+# search
+class SearchView(View):
+    template_name = 'core/search.html'
+    @method_decorator(login_required)
+    def get(self, request, *args, **kwargs):
+        qSearch = request.GET.get('q', "")
+        tags = Tag.objects.filter(Q(name__contains=qSearch))[:6]
+        users = User.objects.filter(Q(username__contains=qSearch) | Q(first_name__contains=qSearch) | Q(last_name__contains=qSearch)).order_by("-date_joined")[:6]
+        posts = Post.objects.filter(description__contains=qSearch).order_by("-created_date")[:6]
+        return render(request, self.template_name, {"posts": posts, "tags":tags, "users":users})
+
 # profile view
 class ProfileView(View):
     template_name = 'core/profile.html'

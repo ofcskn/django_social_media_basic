@@ -12,6 +12,8 @@ urlpatterns = [
     path('', login_required(views.HomeView.as_view()), name="home"),
     # posts from all users as random
     path('explore', views.ExploreView.as_view(), name="explore"),
+    # search
+    path('search', views.SearchView.as_view(), name="search"),
     # profile of the user
     path('<str:user_name>', views.ProfileView.as_view(), name="get_user"),
     # followers of the user
