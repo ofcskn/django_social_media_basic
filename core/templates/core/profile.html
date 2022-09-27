@@ -22,9 +22,9 @@
             {% endif %}
 
             {% if profile_user.avatar != "" %}
-            <img src="/media/{{profile_user.avatar}}" alt="{{profile_user.username}} Profile">
+            <img width="200" height="200" src="/media/{{profile_user.avatar}}" alt="{{profile_user.username}} Profile">
             {% else %}
-            <img src="{% static 'img/default-profile.png' %}" alt="{{profile_user.username}} Profile">
+            <img width="200" height="200" src="{% static 'img/default-profile.png' %}" alt="{{profile_user.username}} Profile">
             {%endif%}
         </div>
         <div class="col-md-8 profile_content">
@@ -47,7 +47,7 @@
             </div>
             <div class="profile_statistics mt-2">
                 <ul>
-                    <li><span>{{postsCount}}</span> Posts</li>
+                    <li><span>{{posts|length}}</span> Posts</li>
                     <li><span>{{following_of}}</span> Following</li>
                     <li><span>{{followers_of}}</span> Followers</li>
                 </ul>

@@ -1,6 +1,8 @@
 from datetime import datetime
+from pickletools import optimize
+from PIL import Image
 from django.db import models
-import os
+import os, sys
 from uuid import uuid4
 from django.conf import settings
 from django.utils.deconstruct import deconstructible
@@ -37,6 +39,18 @@ class Post(models.Model):
     image = models.FileField(upload_to=path_and_rename, blank=True)
     created_date = models.DateTimeField(default= datetime.now)
     tags = models.ManyToManyField(Tag)
+    
+    def save(self, *args, **kwargs):
+        if not self.image:
+            return            
+
+        quality_value = 90
+        super(Post, self).save(*args, **kwargs)
+        image = Image.open(self.image)
+        (width, height) = image.size     
+        size = ( 1500, 1500)
+        image = image.resize(size, Image.ANTIALIAS)
+        image.save(self.image.path, "jpeg", optimize=True, quality=quality_value)    
     
     @property
     def total_like_count(self):

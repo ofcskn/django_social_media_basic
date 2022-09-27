@@ -3,5 +3,9 @@
 {% block pageTitle %}{{post.description}}{% endblock %}
 
 {% block content %}
-{% include "post/partials/_post.html" with post=post %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        {% include "post/partials/_post.html" with post=post %}
+    </div>
+</div>
 {% endblock %}

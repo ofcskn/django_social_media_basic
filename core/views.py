@@ -1,8 +1,5 @@
-from urllib import request
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
-from datetime import datetime
-from django.conf import settings
+from django.http import HttpResponse
 from post.models import Post, PostAction # import the settings file
 from django.views import View
 from account.models import User, UserFollower
@@ -41,7 +38,7 @@ class SearchView(View):
         qSearch = request.GET.get('q', "")
         tags = Tag.objects.filter(Q(name__contains=qSearch))[:6]
         users = User.objects.filter(Q(username__contains=qSearch) | Q(first_name__contains=qSearch) | Q(last_name__contains=qSearch)).order_by("-date_joined")[:6]
-        posts = Post.objects.filter(description__contains=qSearch).order_by("-created_date")[:6]
+        posts = Post.objects.filter(Q(description__contains=qSearch) | Q(tags__name__exact=qSearch)).order_by("-created_date")[:6]
         return render(request, self.template_name, {"posts": posts, "tags":tags, "users":users})
 
 # profile view

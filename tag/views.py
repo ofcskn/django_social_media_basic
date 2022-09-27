@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 class DetailView(View):
     template_name = 'tag/detail.html'
     def get(self, request, *args, **kwargs):
-        tag = get_object_or_404(Tag,permalink=self.kwargs['tag_permalink'])
+        tag = get_object_or_404(Tag,name=self.kwargs['tag_name'])
         # get posts by the tag
         posts_by_tag = Post.objects.filter(tags__pk=tag.pk)
         return render(request, self.template_name, {'posts': {

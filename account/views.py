@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from account.models import User, UserFollower
 from .forms import ProfileAvatarUploadForm, ProfileChangePasswordForm, ProfileEditForm, UserLoginForm, UserRegisterForm
+from django.urls import reverse
 
 # Create your views here.
 class LoginView(View):
@@ -108,7 +109,7 @@ class ProfileAvatarUploadView(View):
         if form.is_valid():
             print(form.cleaned_data)
             form.save()
-            return HttpResponse("success")
+            return HttpResponseRedirect(reverse('core:get_user', args=(request.user.username,)))
         else:
             return HttpResponse("not-valid")
 

@@ -19,7 +19,8 @@
                     <h6 class="card-subtitle mb-2 text-muted">{{user.username}}</h6>
                 </div>
                 <img width="50" height="50"
-                    src="/media/{% if profile_user.avatar != None and profile_user.avatar != '' %}{{user.avatar}}{% else %}profile/default.png{% endif %}"
+                class="rounded-circle"
+                    src="/media/{% if user.avatar != None and user.avatar != '' %}{{user.avatar}}{% else %}profile/default.png{% endif %}"
                     alt="">
             </a>
         </div>
@@ -30,8 +31,8 @@
                 {% for user in newUsers %}
                 <div class="suggested_user__card">
                     <div class="d-flex align-items-center">
-                        <img width="32" height="32" class="suggested_user__img"
-                            src="/media/{% if profile_user.avatar != None and profile_user.avatar != '' %}{{user.avatar}}{% else %}profile/default.png{% endif %}"
+                        <img width="32" height="32" class="suggested_user__img rounded-circle"
+                            src="/media/{% if user.avatar != None and user.avatar != '' %}{{user.avatar}}{% else %}profile/default.png{% endif %}"
                             alt="">
                         <span class="suggested_user__name">@{{user.username}}</span>
                     </div>
@@ -46,7 +47,7 @@
             <h2 class="sidebar_title">Popular Tags</h2>
             <ul class="home_tag__list mt-3">
                 {% for tag in tags %}
-                <li><a href="{% url 'tag:detail' tag_permalink=tag.permalink %}">{{tag.name}}</a></li>
+                <li><a href="{% url 'tag:detail' tag_name=tag.name %}">{{tag.name}}</a></li>
                 {% endfor %}
             </ul>
         </div>

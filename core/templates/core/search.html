@@ -36,7 +36,7 @@
 {% if tags|length > 0 %}
 <ul class="home_tag__list mt-3">
     {% for tag in tags %}
-    <li><a href="{% url 'tag:detail' tag_permalink=tag.permalink %}">{{tag.name}}</a></li>
+    <li><a href="{% url 'tag:detail' tag_name=tag.name %}">{{tag.name}}</a></li>
     {% endfor %}
 </ul>
 {% else %}

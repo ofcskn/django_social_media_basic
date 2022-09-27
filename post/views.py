@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.http import HttpResponseRedirect, HttpResponse
@@ -54,7 +55,7 @@ class CreateView(View):
             # post.description = description_without_tags
             post.description = description_without_tags
             post.save()
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect(reverse("post:detail", args=(post.pk,)))
 
         return render(request, self.template_name, {'form': form})
 

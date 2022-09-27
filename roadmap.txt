@@ -17,6 +17,8 @@ Roadmap
     - profile about us description and website url []
     - liked and saved posts listing []
     - tags for post sharing []
+    - errors handling []
+    
 
 NOTES
     - Users can follow themselves. This is a problem. Solve it. []

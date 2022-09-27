@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 app_name  = "tag"
 urlpatterns = [
-    path('<str:tag_permalink>', views.DetailView.as_view(), name="detail"),
+    path('<str:tag_name>', views.DetailView.as_view(), name="detail"),
 ]
 
 if settings.DEBUG:
