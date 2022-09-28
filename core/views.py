@@ -77,8 +77,8 @@ class ProfileView(View):
 
         # get followers of the user
 
-        followers_count_of = user.follower.filter(is_accepted=True).count()
-        following_count_of = user.to.filter(is_accepted=True).count()
+        followers_count_of = user.to.filter(is_accepted=True).count()
+        following_count_of = user.follower.filter(is_accepted=True).count()
 
         context = {"profile_user": user,'userFollowingType': userFollowingType,'followings_of':{
             "count":following_count_of,
@@ -88,10 +88,10 @@ class ProfileView(View):
 
         # get followers and followings by type2
         if type2 == "followers":
-            context['followers_of']['list'] = user.follower.filter(is_accepted=True)
+            context['followers_of']['list'] = user.to.filter(is_accepted=True)
         elif type2 == "followings":
             followings_of = UserFollower.objects.filter(follower=user, is_accepted=True)
-            context['followings_of']['list'] = user.to.filter(is_accepted=True)
+            context['followings_of']['list'] = user.follower.filter(is_accepted=True)
 
         # saved/liked/all posts by type
         if type == "saved":

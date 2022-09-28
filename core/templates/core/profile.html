@@ -161,12 +161,12 @@
                 {% if followers_of.list|length > 0 %}
                 <!--Followers list-->
                 {% for item in followers_of.list %}
-                            {% include "core/partials/_user_card.html" with user=item.to %}
+                            {% include "core/partials/_user_card.html" with user=item.follower %}
                 {% endfor %}
                 {% elif followings_of.list|length > 0%}
                 <!-- Following list-->
                 {% for item in followings_of.list %}
-                            {% include "core/partials/_user_card.html" with user=item.follower %}
+                            {% include "core/partials/_user_card.html" with user=item.to %}
                 {% endfor %}
                 {% else %}
                 <p>No users.</p>

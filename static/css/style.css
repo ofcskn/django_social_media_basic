@@ -67,8 +67,13 @@
 .profile_statistics ul li {
     margin-right: 10px;
 }
-
-.profile_statistics ul li span {
+.profile_statistics ul li a{
+    text-decoration: none;
+    color: #000;
+}
+.profile_statistics ul li span,
+.profile_statistics ul li a span
+ {
     font-weight: bold;
 }
 
