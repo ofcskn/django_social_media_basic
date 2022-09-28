@@ -73,24 +73,24 @@
             <ul class="nav nav-tabs profile_tabs" id="profile_tabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a href="{% url 'core:get_user' user_name=profile_user.username %}"
-                        class="nav-link {% if request.path == posts_url %}active{% endif %}" id="home-tab" role="tab"
+                        class="nav-link {% if request.path == posts_url|getStringFromUnicode %}active{% endif %}" id="home-tab" role="tab"
                         aria-controls="home" aria-selected="true">Posts</a>
                 </li>
                 {% if user.is_authenticated and profile_user == user%}
                 <li class="nav-item" role="presentation">
                     <a href="{% url 'core:saved_posts_of_user' user_name=profile_user.username %}"
-                        class="nav-link {% if request.path == saved_posts_url %}active{% endif %}" id="saved_posts-tab"
+                        class="nav-link {% if request.path == saved_posts_url|getStringFromUnicode %}active{% endif %}" id="saved_posts-tab"
                         role="tab" aria-controls="saved_posts" aria-selected="false">Saved</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a href="{% url 'core:liked_posts_of_user' user_name=profile_user.username %}"
-                        class="nav-link {% if request.path == liked_posts_url %}active{% endif %}" id="liked_posts-tab"
+                        class="nav-link {% if request.path == liked_posts_url|getStringFromUnicode %}active{% endif %}" id="liked_posts-tab"
                         role="tab" aria-controls="liked_posts" aria-selected="false">Liked</a>
                 </li>
                 {% endif %}
             </ul>
             <div class="tab-content" id="profile_tabs_content">
-                <div class="tab-pane fade {% if request.path != liked_posts_url and request.path != saved_posts_url %}show active{% endif %}"
+                <div class="tab-pane fade {% if request.path != liked_posts_url|getStringFromUnicode and request.path != saved_posts_url|getStringFromUnicode %}show active{% endif %}"
                     id="home" role="tabpanel" aria-labelledby="home-tab">
                     {% if posts|length > 0 %}
                     <div class="grid">
@@ -104,7 +104,7 @@
                     <p>No posts from @{{profile_user.username}}</p>
                     {% endif %}
                 </div>
-                <div class="tab-pane {% if request.path == saved_posts_url %}show active{% endif %}" id="saved_posts"
+                <div class="tab-pane {% if request.path == saved_posts_url|getStringFromUnicode %}show active{% endif %}" id="saved_posts"
                     role="tabpanel" aria-labelledby="saved_posts-tab">
                     {% if postActions.saved|length > 0 %}
                     <div class="tab_top__desc">
@@ -121,7 +121,7 @@
                     <p>No posts have been saved yet.</p>
                     {% endif %}
                 </div>
-                <div class="tab-pane {% if request.path == liked_posts_url %}show active{% endif %}" id="liked_posts"
+                <div class="tab-pane {% if request.path == liked_posts_url|getStringFromUnicode %}show active{% endif %}" id="liked_posts"
                     role="tabpanel" aria-labelledby="liked_posts-tab">
                     {% if postActions.liked|length > 0 %}
                     <div class="tab_top__desc">
@@ -145,8 +145,8 @@
 </section>
 
 {% if request.path == followers_url|getStringFromUnicode or request.path == followings_url|getStringFromUnicode %}
-<!-- Profile Upload Avatar Modal -->
-<div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
+<!-- Followers Modal -->
+<div class="modal fade" id="followersModal" data-backurl="{{posts_url|getStringFromUnicode}}" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -210,6 +210,9 @@
 {% block my_scripts %}
 <script src="{% static '/lib/masonry/masonry.pkgd.min.js' %}"></script>
 <script>
+    // Modals
+    var followersModal = $('#followersModal');
+
     // Masonry
     var masonryGrid = $('.grid').masonry({
         // set itemSelector so .grid-sizer is not used in layout
@@ -218,9 +221,16 @@
         percentPosition: true,
         horizontalOrder: true
     })
+
+    // When modals hidded
+    followersModal.on('hidden.bs.modal', function () {
+        let url = $(this).data("backurl");
+        history.pushState(null, "", url); 
+    })
+
     $(document).ready(function () {
         // show modal 
-        $('#followersModal').modal('show');
+        followersModal.modal('show');
 
         // Masonry
         masonryGrid.masonry('layout');
