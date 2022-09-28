@@ -6,7 +6,7 @@ from account.models import User, UserFollower
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.db.models import F, Sum, Q
-
+from django.db.models import Count
 from tag.models import Tag
 
 # Create your views here.
@@ -29,7 +29,7 @@ class ExploreView(View):
     template_name = 'core/explore.html'
     # order by descending posts and take take_count posts for initializing
     take_count = 9
-    posts = Post.objects.all().order_by("?")[:take_count]
+    posts = Post.objects.annotate(rate_explore=(Count('tags') * 0.2) + (Count('post_for', filter=Q(post_for__action_number=0)) * 0.5) + (Count('post_for', filter=Q(post_for__action_number=1)) * 0.8), action_count=Count('post_for')).order_by("-rate_explore")
     @method_decorator(login_required)
     def get(self, request):
         return render(request, self.template_name, {"posts": self.posts})

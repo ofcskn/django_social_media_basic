@@ -41,23 +41,29 @@ class User(AbstractUser):
         return UserFollower.objects.filter(user=self)
 
     def save(self, *args, **kwargs):
-        old_avatar= User.objects.get(pk=self.pk).avatar
         super(User, self).save(*args, **kwargs)
-        if self.avatar == None:
-            return  
-        elif old_avatar != self.avatar:
-            if old_avatar != None:
-                try:
-                    # remove old avatar from file storage
-                    os.remove(path=old_avatar.path)
-                except:
-                    print("error")
-            quality_value = 100
-            image = Image.open(self.avatar)
-            (width, height) = image.size     
-            size = ( 200, 200)
-            image = image.resize(size, Image.LINEAR)
-            image.save(self.avatar.path, quality=quality_value)    
+
+        try:
+            old_user= User.objects.get(pk=self.pk)
+            if self.avatar == None or old_user == None:
+                return  
+            elif old_user.avatar != self.avatar:
+                if old_user.avatar != None:
+                    try:
+                        # remove old avatar from file storage
+                        os.remove(path=old_user.avatar.path)
+                    except:
+                        print("error")
+                quality_value = 100
+                image = Image.open(self.avatar)
+                (width, height) = image.size     
+                size = ( 200, 200)
+                image = image.resize(size, Image.ADAPTIVE)
+                image.save(self.avatar.path, quality=quality_value)   
+        except User.DoesNotExist:
+            print("user does not")
+
+         
     
 class UserFollower(models.Model):
     follower = models.ForeignKey(User,on_delete=models.CASCADE, related_name='follower')

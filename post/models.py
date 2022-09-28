@@ -56,12 +56,12 @@ class Post(models.Model):
             if size != (0, 0):
                 # upload alternative images
                 upload_path = normalPathWithoutExtension + "x" + str(size[0]) + "x" + str(size[1]) + extension
-                image = image.resize(size, Image.LINEAR)
+                image = image.resize(size, Image.ANTIALIAS)
+                image.save(upload_path) 
             else:
                 # upload original image
                 upload_path =   normalPathWithoutExtension + extension
-                print(upload_path)
-            image.save(upload_path)    
+                image.save(upload_path)
         
     @property
     def total_like_count(self):

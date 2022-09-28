@@ -43,6 +43,7 @@ class RegisterView(View):
             usersByUsername = User.objects.filter(username=userName)
             usersByEmail = User.objects.filter(email=email)
             if usersByUsername.count() == 0 and usersByEmail.count() == 0:
+                print("save")
                 # create process 
                 user = form.save()
                 user.set_password(password)
