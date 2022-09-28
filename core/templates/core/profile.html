@@ -154,19 +154,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                
+
                 {% for follower in followers_of.list %}
                 <p>{{follower.username}}</p>
                 {% endfor %}
                 {% if followers_of.list|length > 0 %}
                 <!--Followers list-->
                 {% for item in followers_of.list %}
-                            {% include "core/partials/_user_card.html" with user=item.follower %}
+                {% include "core/partials/_user_card.html" with user=item.follower %}
                 {% endfor %}
                 {% elif followings_of.list|length > 0%}
                 <!-- Following list-->
                 {% for item in followings_of.list %}
-                            {% include "core/partials/_user_card.html" with user=item.to %}
+                {% include "core/partials/_user_card.html" with user=item.to %}
                 {% endfor %}
                 {% else %}
                 <p>No users.</p>
@@ -210,18 +210,21 @@
 {% block my_scripts %}
 <script src="{% static '/lib/masonry/masonry.pkgd.min.js' %}"></script>
 <script>
-    // show modal 
-    $(document).ready(function () {
-        $('#followersModal').modal('show');
-    });
     // Masonry
-    $('.grid').masonry({
+    var masonryGrid = $('.grid').masonry({
         // set itemSelector so .grid-sizer is not used in layout
         itemSelector: '.grid-item',
         // use element for option
         percentPosition: true,
         horizontalOrder: true
     })
+    $(document).ready(function () {
+        // show modal 
+        $('#followersModal').modal('show');
+
+        // Masonry
+        masonryGrid.masonry('layout');
+    });
 
     $("#follow_to_user").click(function () {
         var $button = $(this);

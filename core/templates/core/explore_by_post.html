@@ -29,12 +29,16 @@
 <script src="{% static '/lib/masonry/masonry.pkgd.min.js' %}"></script>
 <script>
     // Masonry
-    $('.grid').masonry({
+    var masonryGrid = $('.grid').masonry({
         // set itemSelector so .grid-sizer is not used in layout
         itemSelector: '.grid-item',
         // use element for option
         percentPosition: true,
         horizontalOrder: true
     })
+    $(document).ready(function () {
+        // Masonry
+        masonryGrid.masonry('layout');
+    });
 </script>
 {% endblock %}
