@@ -54,9 +54,13 @@ class SearchView(View):
     @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         qSearch = request.GET.get('q', "")
-        tags = Tag.objects.filter(Q(name__contains=qSearch))[:6]
-        users = User.objects.filter(Q(username__contains=qSearch) | Q(first_name__contains=qSearch) | Q(last_name__contains=qSearch)).order_by("-date_joined")[:6]
-        posts = Post.objects.filter(Q(description__contains=qSearch) | Q(tags__name__exact=qSearch)).order_by("-created_date")[:6]
+        tags = Tag.objects.filter(Q(name__contains=qSearch)).distinct()[:6]
+        users = User.objects.filter(Q(username__contains=qSearch) | Q(first_name__contains=qSearch) | Q(last_name__contains=qSearch)).distinct().order_by("-date_joined")[:6]
+        posts = Post.objects.filter(Q(description__contains=qSearch)\
+             | Q(posted_user__first_name__contains=qSearch)\
+             | Q(posted_user__last_name__contains=qSearch)\
+             | Q(posted_user__username__contains=qSearch)\
+             | Q(tags__name__exact=qSearch)).distinct().order_by("-created_date")[:6]
         return render(request, self.template_name, {"posts": posts, "tags":tags, "users":users})
 
 # profile view

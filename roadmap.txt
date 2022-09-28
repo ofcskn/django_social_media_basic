@@ -34,7 +34,9 @@ Roadmap
     - profile pending alert instead of following all []
     - post comments liking and replying []
     -  user profile top banner []
-    - 
+    - delete post []
+    - archive post []
+    - private account []
 
 NOTES
     - Users can follow themselves. This is a problem. Solve it. []

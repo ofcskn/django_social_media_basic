@@ -129,9 +129,10 @@ def accept_following_request(request, id):
         userFollower = get_object_or_404(UserFollower,pk=id)
         # check the folowing request is for current_user
         if userFollower.to == current_user:
+            userAcceptStatus = userFollower.is_accepted != True
             # update is_acccepted by filtering
-            UserFollower.objects.filter(pk=id, is_accepted=False, to=current_user).update(is_accepted=True)
-            return HttpResponse("success")
+            UserFollower.objects.filter(pk=id, to=current_user).update(is_accepted=userAcceptStatus)
+            return HttpResponse(f"{userAcceptStatus}")
         else:
             return HttpResponse("bad-request")
     else:

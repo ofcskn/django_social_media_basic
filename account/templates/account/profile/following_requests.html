@@ -12,12 +12,15 @@
                 <div class="fw-bold">@{{req.follower.username}}</div>
                 {{req.follower.first_name}} {{req.follower.last_name}}
             </div>
-            {% if req.is_accepted == True %}
-            <span>Following</span>
-            {% else %}
-            <button type="button" class="accept_request__btn btn btn-sm bg-success text-white"
-                data-url="{% url 'account:accept_following_request' id=req.pk %}">Accept</button>
-            {%endif%}
+            
+            <button type="button" class="accept_request__btn btn btn-sm {% if req.is_accepted == True %} bg-success {% else %} bg-danger {%endif%} text-white"
+                data-url="{% url 'account:accept_following_request' id=req.pk %}">
+                {% if req.is_accepted == True %}
+                Accepted
+                {% else %}
+                Accept
+                {%endif%}
+            </button>
         </li>
         {% endfor%}
     </ol>
@@ -34,7 +37,14 @@
             method: "POST",
             data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
             success: function (data) {
-                console.log(data)
+                if (data=="True"){
+                    $button.removeClass("bg-danger").addClass("bg-success")
+                    $button.text("Accepted")
+                }
+                else if(data=="False"){
+                    $button.removeClass("bg-success").addClass("bg-danger")
+                    $button.text("Accept")
+                }
             }
         });
 
