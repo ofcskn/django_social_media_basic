@@ -3,12 +3,15 @@
 {% block pageTitle %}{{ title }}{% endblock %}
 {% block content %}
 
-{% if posts|length > 0 %}
 <div class="row">
     <div class="col-md-8">
-        {% for post in posts %}
-        {% include "post/partials/_post.html" with post=post %}
-        {%endfor%}
+        {% if posts|length > 0 %}
+            {% for post in posts %}
+            {% include "post/partials/_post.html" with post=post %}
+            {%endfor%}
+        {% else %}
+        <p>No posts</p>
+        {% endif %}
     </div>
     <div class="col-md-4">
         <div class="sidebar_card">
@@ -18,8 +21,7 @@
                     <h5 class="card-title">{{user.first_name}}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{user.username}}</h6>
                 </div>
-                <img width="50" height="50"
-                class="rounded-circle"
+                <img width="50" height="50" class="rounded-circle"
                     src="/media/{% if user.avatar != None and user.avatar != '' %}{{user.avatar}}{% else %}profile/default.png{% endif %}"
                     alt="">
             </a>
@@ -54,8 +56,5 @@
         {% endif %}
     </div>
 </div>
-{% else %}
-<p>No posts</p>
-{% endif %}
 
 {% endblock %}

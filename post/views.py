@@ -63,7 +63,7 @@ class CreateView(View):
             # post.description = description_without_tags
             post.description = description_without_tags
             post.save()
-            return HttpResponseRedirect(reverse("post:detail", args=(post.pk,)))
+            return HttpResponseRedirect(reverse("post:detail", args=(post.hashed_permalink,)))
 
         return render(request, self.template_name, {'form': form})
 

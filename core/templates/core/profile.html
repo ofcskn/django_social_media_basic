@@ -37,10 +37,12 @@
                     {% else %}
                     <button type="button" id="follow_to_user" class="btn btn-primary mr-2"
                         data-url="{% url 'core:follow_user' to_user_name=profile_user.username %}">
-                        {%if userIsFollowing == True%}
+                        {%if userFollowingType == 'accepted' %}
                         Following
-                        {%else%}
+                        {%elif userFollowingType == 'not-following' %}
                         Follow
+                        {%else%}
+                        Pending
                         {%endif%}
                     </button>
                     {% endif %}

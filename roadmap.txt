@@ -43,3 +43,5 @@ NOTES
 BUGS
     - after avatar uploading redirect url is not correct [x]
     - likes count not increased []
+    - when you accept following request not button text changing []
+    - 

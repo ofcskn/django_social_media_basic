@@ -50,11 +50,17 @@ class ProfileView(View):
         postTakeCount = 9
         user = get_object_or_404(User, username=self.kwargs['user_name'])
         # check the user is following by authenticated user
-        userIsFollowing = UserFollower.objects.filter(to=user,follower=request.user).count() > 0
+        userFollowingType = "not-following"
+        userFollowers = UserFollower.objects.filter(to=user,follower=request.user)
+        if userFollowers.filter(is_accepted=True).count() > 0:
+            userFollowingType = "accepted"
+        elif userFollowers.filter(is_accepted=False).count() > 0:
+            userFollowingType = "pending"    
+
         # get followers of the user
         followers_of = UserFollower.objects.filter(to=user, is_accepted=True).count()
         following_of = UserFollower.objects.filter(follower=user, is_accepted=True).count()
-        context = {"profile_user": user,'userIsFollowing': userIsFollowing,'following_of':following_of, 'followers_of':followers_of, "postActions": {} }
+        context = {"profile_user": user,'userFollowingType': userFollowingType,'following_of':following_of, 'followers_of':followers_of, "postActions": {} }
         if type == "saved":
             postsAllSaved = PostAction.objects.order_by("-date").filter(action_number=1,user=request.user)[:postTakeCount]
             print(postsAllSaved)
