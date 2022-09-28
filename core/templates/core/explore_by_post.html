@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block pageTitle %}{{ post.title }}{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        {% include "post/partials/_post.html" with post=current_post %}
+    </div>
+</div>
+
+<h2 class="text-center mb-4 mt-3">Related Posts</h2>
+
+{% if posts|length > 0 %}
+<div class="grid">
+    {% for post in posts %}
+    <div class="grid-item col-md-4">
+        {% include "core/partials/_post_explore.html" with post=post %}
+    </div>
+    {%endfor%}
+</div>
+{% else %}
+<p>No posts</p>
+{% endif %}
+
+{% endblock %}
+
+{% block my_scripts %}
+<script src="{% static '/lib/masonry/masonry.pkgd.min.js' %}"></script>
+<script>
+    // Masonry
+    $('.grid').masonry({
+        // set itemSelector so .grid-sizer is not used in layout
+        itemSelector: '.grid-item',
+        // use element for option
+        percentPosition: true,
+        horizontalOrder: true
+    })
+</script>
+{% endblock %}

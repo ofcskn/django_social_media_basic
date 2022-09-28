@@ -29,10 +29,24 @@ class ExploreView(View):
     template_name = 'core/explore.html'
     # order by descending posts and take take_count posts for initializing
     take_count = 9
-    posts = Post.objects.annotate(rate_explore=(Count('tags') * 0.2) + (Count('post_for', filter=Q(post_for__action_number=0)) * 0.5) + (Count('post_for', filter=Q(post_for__action_number=1)) * 0.8), action_count=Count('post_for')).order_by("-rate_explore")
     @method_decorator(login_required)
     def get(self, request):
-        return render(request, self.template_name, {"posts": self.posts})
+        posts = Post.objects.annotate(rate_explore=(Count('tags') * 0.2) + (Count('post_for', filter=Q(post_for__action_number=0)) * 0.5) + (Count('post_for', filter=Q(post_for__action_number=1)) * 0.8), action_count=Count('post_for')).order_by("-rate_explore")
+        return render(request, self.template_name, {"posts": posts})
+
+# explore posts by clicked post 
+class ExploreByPostView(View):
+    template_name = 'core/explore_by_post.html'
+    take_count = 9
+    @method_decorator(login_required)
+    def get(self, request, *args, **kwargs):
+        # get current post
+        post = get_object_or_404(Post, hashed_permalink=self.kwargs['post_permalink'])
+        # get related posts
+        posts = Post.objects.filter(~Q(hashed_permalink=post.hashed_permalink))\
+            .annotate(rate_explore=(Count('tags') * 0.2) + (Count('post_for', filter=Q(post_for__action_number=0)) * 0.5)\
+                 + (Count('post_for', filter=Q(post_for__action_number=1)) * 0.8), action_count=Count('post_for')).order_by("-rate_explore")
+        return render(request, self.template_name, {"posts": posts, "current_post": post})
 
 # search
 class SearchView(View):

@@ -12,6 +12,8 @@ urlpatterns = [
     path('', login_required(views.HomeView.as_view()), name="home"),
     # posts from all users as random
     path('explore', views.ExploreView.as_view(), name="explore"),
+    # eplore related and popular posts after clicked the post
+    path('explore/<str:post_permalink>', views.ExploreByPostView.as_view(), name="explore_by_post"),
     # search
     path('search', views.SearchView.as_view(), name="search"),
     # profile of the user
