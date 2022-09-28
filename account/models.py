@@ -35,7 +35,11 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to=path_and_rename_user_avatar, blank=True, null=True, editable=True)
     about_me = models.CharField(max_length=2048, blank=True)
     website_url = models.URLField(max_length=256, blank=True)
-    
+    @property
+    def user_followers(self):
+        # get following of the user
+        return UserFollower.objects.filter(user=self)
+
     def save(self, *args, **kwargs):
         old_avatar= User.objects.get(pk=self.pk).avatar
         super(User, self).save(*args, **kwargs)

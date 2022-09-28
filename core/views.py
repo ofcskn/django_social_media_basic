@@ -15,8 +15,12 @@ class HomeView(View):
     @method_decorator(login_required)
     def get(self, request):
         take_count = 10
+        # get following of the authenticated user for related posts
+        userFollowings = UserFollower.objects.filter(follower=request.user, is_accepted=True).values_list("to")
         # order by descending posts and take take_count posts for initializing
-        posts = Post.objects.filter(~Q(posted_user=request.user)).order_by("-created_date")[:take_count]
+        posts = Post.objects.filter(~Q(posted_user=request.user)).filter(posted_user__in=userFollowings).order_by("-created_date")[:take_count]
+        if posts.count() == 0:
+            posts = Post.objects.filter(~Q(posted_user=request.user)).order_by("-created_date")[:take_count]
         tags = Tag.objects.all()[:20]
         newUsers = User.objects.all().filter().order_by("-date_joined")[:20]
         return render(request, self.template_name, {"posts": posts, "tags": tags, "newUsers": newUsers})
