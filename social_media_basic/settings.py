@@ -67,7 +67,7 @@ TEMPLATES = [
             ],
             'libraries':{
                 'post_action': 'post.templatetags.post_action',
-            
+                'unicode_data': 'core.templatetags.unicode_data',
             }
         },
     },

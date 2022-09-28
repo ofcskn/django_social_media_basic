@@ -63,7 +63,7 @@ class SearchView(View):
 class ProfileView(View):
     template_name = 'core/profile.html'
     @method_decorator(login_required)
-    def get(self, request, type="", *args, **kwargs):
+    def get(self, request, type="", type2="", *args, **kwargs):
         # constants
         postTakeCount = 9
         user = get_object_or_404(User, username=self.kwargs['user_name'])
@@ -76,12 +76,26 @@ class ProfileView(View):
             userFollowingType = "pending"    
 
         # get followers of the user
-        followers_of = UserFollower.objects.filter(to=user, is_accepted=True).count()
-        following_of = UserFollower.objects.filter(follower=user, is_accepted=True).count()
-        context = {"profile_user": user,'userFollowingType': userFollowingType,'following_of':following_of, 'followers_of':followers_of, "postActions": {} }
+
+        followers_count_of = user.follower.filter(is_accepted=True).count()
+        following_count_of = user.to.filter(is_accepted=True).count()
+
+        context = {"profile_user": user,'userFollowingType': userFollowingType,'followings_of':{
+            "count":following_count_of,
+        }, 'followers_of':{
+            "count": followers_count_of,
+        }, "postActions": {} }
+
+        # get followers and followings by type2
+        if type2 == "followers":
+            context['followers_of']['list'] = user.follower.filter(is_accepted=True)
+        elif type2 == "followings":
+            followings_of = UserFollower.objects.filter(follower=user, is_accepted=True)
+            context['followings_of']['list'] = user.to.filter(is_accepted=True)
+
+        # saved/liked/all posts by type
         if type == "saved":
             postsAllSaved = PostAction.objects.order_by("-date").filter(action_number=1,user=request.user)[:postTakeCount]
-            print(postsAllSaved)
             context['postActions']['saved'] = postsAllSaved
         elif type == "liked":
             postsAllLiked = PostAction.objects.order_by("-date").filter(action_number=0,user=request.user)[:postTakeCount]
@@ -108,7 +122,3 @@ def follow_user(request, to_user_name):
             return HttpResponse("sent")
     else:
         return HttpResponse("failed-request")
-
-@login_required
-def get_followers_of_user(request, user_name):
-    return HttpResponse("Followers of " + user_name)

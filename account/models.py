@@ -67,7 +67,7 @@ class User(AbstractUser):
     
 class UserFollower(models.Model):
     follower = models.ForeignKey(User,on_delete=models.CASCADE, related_name='follower')
-    to = models.ForeignKey(User,on_delete=models.CASCADE, related_name='following')
+    to = models.ForeignKey(User,on_delete=models.CASCADE, related_name='to')
     date = models.DateTimeField(default=datetime.now)
     ip = models.CharField(max_length=256,default=get_ip())
     is_accepted = models.BooleanField(default=False)

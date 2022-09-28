@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load unicode_data %}
 {% block pageTitle %}{{user.username}} Profile{% endblock %}
 
 
@@ -8,6 +9,10 @@
 {% url 'core:get_user' user_name=profile_user.username as posts_url %}
 {% url 'core:saved_posts_of_user' user_name=profile_user.username as saved_posts_url %}
 {% url 'core:liked_posts_of_user' user_name=profile_user.username as liked_posts_url %}
+
+{% url 'core:get_followers_of_user' user_name=profile_user.username as followers_url %}
+{% url 'core:get_followings_of_user' user_name=profile_user.username as followings_url %}
+
 <section class="container">
     <div class="row align-items-center">
         <div class="col-md-4 profile_avatar">
@@ -51,8 +56,10 @@
             <div class="profile_statistics mt-2">
                 <ul>
                     <li><span>{{posts|length}}</span> Posts</li>
-                    <li><span>{{following_of}}</span> Following</li>
-                    <li><span>{{followers_of}}</span> Followers</li>
+                    <li><a href="{% url 'core:get_followings_of_user' user_name=profile_user.username %}"
+                            role="link"><span>{{followings_of.count}}</span> Following</a></li>
+                    <li><a href="{% url 'core:get_followers_of_user' user_name=profile_user.username %}"
+                            role="link"><span>{{followers_of.count}}</span> Followers</a></li>
                 </ul>
             </div>
             {% if profile_user.about_me != None and profile_user.about_me != "" %}
@@ -83,8 +90,8 @@
                 {% endif %}
             </ul>
             <div class="tab-content" id="profile_tabs_content">
-                <div class="tab-pane fade {% if request.path == posts_url %}show active{% endif %}" id="home"
-                    role="tabpanel" aria-labelledby="home-tab">
+                <div class="tab-pane fade {% if request.path != liked_posts_url and request.path != saved_posts_url %}show active{% endif %}"
+                    id="home" role="tabpanel" aria-labelledby="home-tab">
                     {% if posts|length > 0 %}
                     <div class="grid">
                         {% for post in posts %}
@@ -136,7 +143,41 @@
 
     </div>
 </section>
+
+{% if request.path == followers_url|getStringFromUnicode or request.path == followings_url|getStringFromUnicode %}
+<!-- Profile Upload Avatar Modal -->
+<div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="followersModalLabel">Followers</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+                {% for follower in followers_of.list %}
+                <p>{{follower.username}}</p>
+                {% endfor %}
+                {% if followers_of.list|length > 0 %}
+                <!--Followers list-->
+                {% for item in followers_of.list %}
+                            {% include "core/partials/_user_card.html" with user=item.to %}
+                {% endfor %}
+                {% elif followings_of.list|length > 0%}
+                <!-- Following list-->
+                {% for item in followings_of.list %}
+                            {% include "core/partials/_user_card.html" with user=item.follower %}
+                {% endfor %}
+                {% else %}
+                <p>No users.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock %}
+
 
 {% block my_modals %}
 <!-- Profile Upload Avatar Modal -->
@@ -169,6 +210,10 @@
 {% block my_scripts %}
 <script src="{% static '/lib/masonry/masonry.pkgd.min.js' %}"></script>
 <script>
+    // show modal 
+    $(document).ready(function () {
+        $('#followersModal').modal('show');
+    });
     // Masonry
     $('.grid').masonry({
         // set itemSelector so .grid-sizer is not used in layout

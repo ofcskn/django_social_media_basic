@@ -1,0 +1,12 @@
+{% load static %}
+
+
+<a href="{% url 'core:get_user' user_name=user.username %}" class="user_small__card mb-3 deco-none card_top d-flex justify-content-between">
+    <div>
+        <h5 class="card-title">{{user.first_name}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{user.username}}</h6>
+    </div>
+    <img width="50" height="50" class="rounded-circle"
+        src="/media/{% if user.avatar != None and user.avatar != '' %}{{user.avatar}}{% else %}profile/default.png{% endif %}"
+        alt="">
+</a>

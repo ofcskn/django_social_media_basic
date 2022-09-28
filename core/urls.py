@@ -18,8 +18,12 @@ urlpatterns = [
     path('search', views.SearchView.as_view(), name="search"),
     # profile of the user
     path('<str:user_name>', views.ProfileView.as_view(), name="get_user"),
+
     # followers of the user
-    path('<str:user_name>/followers', views.get_followers_of_user, name="get_followers_of_user"),
+    path('<str:user_name>/followers', views.ProfileView.as_view(), {"type2":"followers"}, name="get_followers_of_user"),
+    # following of the user
+    path('<str:user_name>/following', views.ProfileView.as_view(), {"type2":"followings"}, name="get_followings_of_user"),
+
     # saved posts of the user
     path('<str:user_name>/saved', views.ProfileView.as_view(), {"type": "saved"}, name="saved_posts_of_user"),
     # liked posts of the user
