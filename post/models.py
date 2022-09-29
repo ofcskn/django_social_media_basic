@@ -77,3 +77,11 @@ class PostAction(models.Model):
     ip = models.CharField(max_length=256,default=get_ip())
     user = models.ForeignKey(User,on_delete=models.CASCADE, related_name="acted_user")
     post = models.ForeignKey(Post,on_delete=models.CASCADE, related_name="post_for")
+
+class PostComment(models.Model):
+    who_sent=models.ForeignKey(User, on_delete=models.CASCADE, related_name="who_sent")
+    content= models.CharField(max_length=512)
+    date = models.DateTimeField(default=datetime.now)
+    ip= models.GenericIPAddressField()
+    for_post=models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post")
+    sub_comment=models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True)     
