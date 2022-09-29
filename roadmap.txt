@@ -30,6 +30,7 @@ Roadmap
     - follower notifications []
     - password reset via link []
     - validators all []
+    - multiple image uploading []
     - profile followers and following listing via model []
     - profile pending alert instead of following all []
     - post comments liking and replying []
