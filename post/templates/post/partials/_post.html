@@ -42,10 +42,38 @@
                 <span class="post_action__num">{{post.total_like_count}}</span>
             </div>
             <div class="post_action__button">
+                <a type="button" class="text-muted un" href="#post_comments_{{post.hashed_permalink}}"><i
+                        class="fa fa-comments"></i></button>
+                <span class="post_action__num">{{post.total_comment_count}}</a>
+            </div>
+            <div class="post_action__button">
                 <button type="button" class="post_action__btn save {% if post|isSaved:user == True %}acted{% endif %}"
                     data-url="{% url 'post:action' permalink=post.hashed_permalink action_name='save' %}"><i
                         class="fa fa-bookmark"></i></button>
             </div>
+        </div>
+        <div class="comments_section_of_post border-light" id="post_comments_{{post.hashed_permalink}}">
+            <div class="input-group mt-3">
+                <input class="form-control border border-1" name="send_comment" placeholder="Comment on the post...">
+                <span class="input-group-text bg-transparent">
+                    <button type="button" class="btn btn-sm"><i class="fas fa-paper-plane"></i></button>
+                </span>
+            </div>
+            {% if comments_all|length > 0 %}
+            <ul class="list-group list-group-flush mt-3 border border-1 rounded">
+                {% for comment in post.comments_all %}
+                <li class="list-group-item d-flex align-items-center justify-content-between px-3 py-3">
+                    <a href="{% url 'core:get_user' user_name=comment.who_sent.username %}">
+                        <img width="40" height="40" class="rounded-circle me-3"
+                        src="/media/{% if comment.who_sent.avatar != None and comment.who_sent.avatar != '' %}{{comment.who_sent.avatar}}{% else %}profile/default.png{% endif %}">
+                    </a>
+                    <span class="comment_content">
+                        {{comment.content}}
+                    </span>
+                </li>
+                {% endfor %}
+              </ul>
+              {% endif %}
         </div>
     </div>
 </div>
