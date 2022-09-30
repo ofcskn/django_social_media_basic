@@ -55,6 +55,20 @@ class EditView(View):
             else:
                 return HttpResponse(401)               
 
+class ReplyView(View):
+    form_class = PostCommentForm
+    template_name = 'comment/partials/_comment_for_post.html'
+    @method_decorator(login_required)
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # get comments by id
+            to_comment = get_object_or_404(PostComment, id=self.kwargs['id'])
+            comment = PostComment(content=form.cleaned_data['content'], who_sent=request.user, ip=get_ip(), sub_comment=to_comment, for_post=to_comment.for_post)
+            comment.save()
+            return render(request, self.template_name, {"comment": comment})
+        else:
+            return HttpResponse("not-valid")            
 
 class DeleteView(View):
     @method_decorator(login_required)

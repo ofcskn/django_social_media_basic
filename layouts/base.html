@@ -47,7 +47,7 @@
                         var commentsSection = $formDiv.closest(".comments_section_of_post");
                         var comments = commentsSection.find(".comments_of_post");
                         // append rendered data
-                        comments.append(data);
+                        comments.prepend(data);
                         // Hide alert
                         comments.find(".no_comments_alert").remove();
                         // remove value
@@ -100,25 +100,27 @@
 
             // remove text
             comment_text__span.remove();
-            $('<input>').attr({
-                type: 'text',
-                name: 'content',
-                class: 'form-control w-100 editable_comment__input',
-                value: comment_text,
-            }).appendTo(comment_text__div);
-
-            $('<input>').attr({
-                type: 'hidden',
-                name: 'url',
-                value: form_url,
-            }).appendTo(comment_text__div);
-
-
+            if (comment_text__div.find("input[name='content']").length == 0) {
+                $('<input>').attr({
+                    type: 'text',
+                    name: 'content',
+                    class: 'form-control w-100 editable_comment__input',
+                    value: comment_text,
+                }).appendTo(comment_text__div);
+            }
+            if (comment_text__div.find("input[name='url']").length == 0) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'url',
+                    value: form_url,
+                }).appendTo(comment_text__div);
+            }
         });
 
         $("body").delegate(".editable_comment__input", "keydown", function (e) {
             var $this = $(this);
-            var list_item = $this.closest(".post_comment__list__item");
+            var list_item_with_sub = $this.closest(".post_comment__list__item_with_sub");
+            var list_item = list_item_with_sub.find(".post_comment__list__item");
             var comment_text__div = list_item.find(".post_comment__text");
             var form_url = list_item.find("input[name='url']").val();
             var comment_content = list_item.find("input[name='content']").val();
@@ -128,19 +130,46 @@
                 $('<span>').appendTo(comment_text__div).text(comment_content);
             }
             else if (e.which == 13) {
-                console.log("keypress enter");
                 $.ajax({
                     url: form_url,
                     method: "POST",
                     data: { csrfmiddlewaretoken: '{{ csrf_token }}', content: comment_content },
                     success: function (data) {
+                        $this.remove();
+                        comment_content = list_item.find("input[name='content']").val();
+                        if ($this.hasClass("reply")) {
+                            console.log("replied");
+                            list_item_with_sub.find(".sub_comments_of_post").append(data);
+                        }
                         if (data == "success") {
-                            comment_content = list_item.find("input[name='content']").val();
-                            $this.remove();
                             $('<span>').appendTo(comment_text__div).text(comment_content);
                         }
                     }
                 });
+            }
+        })
+
+        $(".reply_comment__btn").on("click", function () {
+            var $this = $(this);
+            var list_item = $this.closest(".post_comment__list__item");
+            var comment_text__div = list_item.find(".post_comment__text");
+            var form_url = $this.data("url");
+
+            if (comment_text__div.find("input[name='url']").length == 0) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'url',
+                    value: form_url,
+                }).appendTo(comment_text__div);
+            }
+            if (comment_text__div.find("input[name='content']").length == 0) {
+                $('<input>').attr({
+                    type: 'text',
+                    name: 'content',
+                    class: 'form-control editable_comment__input reply d-block',
+                    value: "",
+                    placeholder: "Your reply.."
+                }).appendTo(comment_text__div);
             }
         })
 
