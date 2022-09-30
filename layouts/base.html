@@ -36,7 +36,8 @@
     <script>
         var send_comment_function = (function (e, $formDiv) {
             var $form_url = $formDiv.find("button").data("url");
-            var $comment = $formDiv.find("input[name='comment_content']").val();
+            var $commentInput = $formDiv.find("input[name='comment_content']");
+            var $comment = $commentInput.val();
             $.ajax({
                 url: $form_url,
                 method: "POST",
@@ -49,8 +50,13 @@
                         comments.append(data);
                         // Hide alert
                         comments.find(".no_comments_alert").remove();
+                        // remove value
+                        $commentInput.val("");
                     }
-                    else {
+                    else if(data=="not-valid") {
+                        $formDiv.addClass("was-validated");
+                    }
+                    else{
                         alert("There is an error.")
                     }
                 }
@@ -72,26 +78,27 @@
         $(".post_action__btn").click(function () {
             var $button = $(this);
             var form_url = $(this).data("url");
-            $.ajax({
-                url: form_url,
-                method: "POST",
-                data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
-                success: function (data) {
-                    // add or remove acted class
-                    $button.toggleClass("acted")
-                    // add +1 or -1
-                    let numberSpan = $button.closest(".post_action__button").find(".post_action__num");
-                    let numberOfAction = parseInt(numberSpan.text());
-                    if (data == "acted") {
-                        numberOfAction += 1
+            if (!$button.hasClass("not_action")) {
+                $.ajax({
+                    url: form_url,
+                    method: "POST",
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
+                    success: function (data) {
+                        // add or remove acted class
+                        $button.toggleClass("acted")
+                        // add +1 or -1
+                        let numberSpan = $button.closest(".post_action__button").find(".post_action__num");
+                        let numberOfAction = parseInt(numberSpan.text());
+                        if (data == "acted") {
+                            numberOfAction += 1
+                        }
+                        else if (data == "canceled" && numberOfAction != 0) {
+                            numberOfAction -= 1
+                        }
+                        numberSpan.text(numberOfAction)
                     }
-                    else if (data == "canceled" && numberOfAction != 0) {
-                        numberOfAction -= 1
-                    }
-                    numberSpan.text(numberOfAction)
-                }
-            });
-
+                });
+            }
         });
     </script>
 

@@ -13,8 +13,7 @@
         <div class="card_body__top d-flex justify-content-between align-items-center">
             <a href="{% url 'core:get_user' user_name=post.posted_user.username %}" class="card_image__profile">
                 <div class="card_image__avatar">
-                    <img width="50" height="50"
-                    class="rounded-circle"
+                    <img width="50" height="50" class="rounded-circle"
                         src="/media/{% if post.posted_user.avatar != None and post.posted_user.avatar != '' %}{{post.posted_user.avatar}}{% else %}profile/default.png{% endif %}"
                         alt="">
                 </div>
@@ -36,16 +35,19 @@
                 {% endif %}
         </div>
         <div class="card_footer d-flex justify-content-between">
-            <div class="post_action__button">
-                <button type="button" class="post_action__btn like {% if post|isLiked:user == True %}acted{% endif %}"
-                    data-url="{% url 'post:action' permalink=post.hashed_permalink action_name='like' %}"><i
-                        class="fas fa-heart"></i></button>
-                <span class="post_action__num">{{post.total_like_count}}</span>
-            </div>
-            <div class="post_action__button">
-                <a type="button" class="text-muted un" href="#post_comments_{{post.hashed_permalink}}"><i
-                        class="fa fa-comments"></i></button>
-                <span class="post_action__num">{{post.total_comment_count}}</a>
+            <div class="d-flex align-items-center justify-content-center">
+                <div class="post_action__button me-2">
+                    <button type="button"
+                        class="post_action__btn like {% if post|isLiked:user == True %}acted{% endif %}"
+                        data-url="{% url 'post:action' permalink=post.hashed_permalink action_name='like' %}"><i
+                            class="fas fa-heart"></i></button>
+                    <span class="post_action__num">{{post.total_like_count}}</span>
+                </div>
+                <div class="post_action__button">
+                    <a type="button" class="post_action__btn text-muted not_action" href="#post_comments_{{post.hashed_permalink}}"><i
+                            class="fa fa-comments"></i></button>
+                        <span class="post_action__num">{{post.total_comment_count}}</a>
+                </div>
             </div>
             <div class="post_action__button">
                 <button type="button" class="post_action__btn save {% if post|isSaved:user == True %}acted{% endif %}"
@@ -54,19 +56,22 @@
             </div>
         </div>
         <div class="comments_section_of_post border-light" id="post_comments_{{post.hashed_permalink}}">
-            <div class="input-group mt-3 send_comment_div">
-                <input class="form-control border border-1" name="comment_content" placeholder="Comment on the post...">
+            <div class="input-group mt-3 send_comment_div needs-validation">
+                <input class="form-control border border-1" name="comment_content" required placeholder="Comment on the post...">
                 <span class="input-group-text bg-transparent">
-                    <button type="button" class="btn btn-sm send_comment_btn" data-url="{% url 'post:send_comment_to_post' permalink=post.hashed_permalink %}"><i class="fas fa-paper-plane"></i></button>
+                    <button type="button" class="btn btn-sm send_comment_btn"
+                        data-url="{% url 'post:send_comment_to_post' permalink=post.hashed_permalink %}"><i
+                            class="fas fa-paper-plane"></i></button>
                 </span>
             </div>
             <ul class="list-group list-group-flush mt-3 border border-1 comments_of_post  rounded">
                 {% if post|getCommentsOfPost|length > 0 %}
                 {% for comment in post|getCommentsOfPost %}
-                    {% include 'post/partials/_comment_for_post.html' with comment=comment %}
+                {% include 'post/partials/_comment_for_post.html' with comment=comment %}
                 {% endfor %}
                 {%else%}
-                <li class="list-group-item d-flex align-items-center justify-content-center no_comments_alert">Not shared comments yet. You can share a comment with us.</li>
+                <li class="list-group-item d-flex align-items-center justify-content-center no_comments_alert">Not
+                    shared comments yet. You can share a comment with us.</li>
                 {% endif %}
             </ul>
         </div>

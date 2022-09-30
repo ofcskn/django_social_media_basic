@@ -88,6 +88,7 @@
     border: none;
     cursor: pointer;
     padding: 8px;
+    text-decoration: none;
 }
 
 .post_action__btn i {
