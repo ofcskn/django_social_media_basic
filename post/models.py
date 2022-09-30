@@ -75,11 +75,6 @@ class Post(models.Model):
     def total_comment_count(self):
         return PostComment.objects.filter(for_post=self).count()
 
-    @property
-    def comments_all(self):
-        comments = PostComment.objects.filter(for_post=self)
-        print("comments", comments.count())
-        return comments
 
 class PostAction(models.Model):
     action_number = models.IntegerField(default=0) # default (0) is for like action. (1) is for saving post

@@ -42,7 +42,7 @@
                 method: "POST",
                 data: { csrfmiddlewaretoken: '{{ csrf_token }}', content: $comment },
                 success: function (data) {
-                    if (data == "success") {
+                    if (data != "not-valid") {
                         var commentsSection = $formDiv.closest(".comments_section_of_post");
                         var comments = commentsSection.find(".comments_of_post");
                         // append rendered data

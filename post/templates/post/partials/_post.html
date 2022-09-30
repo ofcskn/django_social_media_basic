@@ -1,5 +1,6 @@
 {% load static %}
 {% load post_action %}
+{% load post_comments %}
 
 <div class="card mb-3">
     <a href="{% url 'post:detail' permalink=post.hashed_permalink %}" class="card_image">
@@ -60,8 +61,8 @@
                 </span>
             </div>
             <ul class="list-group list-group-flush mt-3 border border-1 comments_of_post  rounded">
-                {% if comments_all|length > 0 %}
-                {% for comment in post.comments_all %}
+                {% if post|getCommentsOfPost|length > 0 %}
+                {% for comment in post|getCommentsOfPost %}
                     {% include 'post/partials/_comment_for_post.html' with comment=comment %}
                 {% endfor %}
                 {%else%}

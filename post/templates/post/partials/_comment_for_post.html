@@ -1,11 +1,17 @@
 {% load static %}
 
-<li class="list-group-item d-flex align-items-center px-3 py-3">
-    <a href="{% url 'core:get_user' user_name=comment.who_sent.username %}">
-        <img width="40" height="40" class="rounded-circle me-3"
-        src="/media/{% if comment.who_sent.avatar != None and comment.who_sent.avatar != '' %}{{comment.who_sent.avatar}}{% else %}profile/default.png{% endif %}">
-    </a>
-    <span class="comment_content ms-3">
-        {{comment.content}}
-    </span>
+<li class="list-group-item d-flex align-items-center justify-content-between px-3 py-3">
+    <div class="d-flex align-items-center">
+        <a href="{% url 'core:get_user' user_name=comment.who_sent.username %}">
+            <img width="40" height="40" class="rounded-circle me-3"
+            src="/media/{% if comment.who_sent.avatar != None and comment.who_sent.avatar != '' %}{{comment.who_sent.avatar}}{% else %}profile/default.png{% endif %}">
+        </a>
+        <div class="comment_content ms-2">
+            <h6 class="mb-1">{{comment.who_sent.username}}</h6>
+            <span class="">
+                {{comment.content}}
+            </span>
+        </div>
+    </div>
+    <button class="reply_button btn btn-sm" type="button">Reply</button>
 </li>
