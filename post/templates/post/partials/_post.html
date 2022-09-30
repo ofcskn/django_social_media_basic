@@ -60,14 +60,14 @@
                 <input class="form-control border border-1" name="comment_content" required placeholder="Comment on the post...">
                 <span class="input-group-text bg-transparent">
                     <button type="button" class="btn btn-sm send_comment_btn"
-                        data-url="{% url 'post:send_comment_to_post' permalink=post.hashed_permalink %}"><i
+                        data-url="{% url 'comment:send_comment_to_post' permalink=post.hashed_permalink %}"><i
                             class="fas fa-paper-plane"></i></button>
                 </span>
             </div>
             <ul class="list-group list-group-flush mt-3 border border-1 comments_of_post  rounded">
                 {% if post|getCommentsOfPost|length > 0 %}
                 {% for comment in post|getCommentsOfPost %}
-                {% include 'post/partials/_comment_for_post.html' with comment=comment %}
+                {% include 'comment/partials/_comment_for_post.html' with comment=comment %}
                 {% endfor %}
                 {%else%}
                 <li class="list-group-item d-flex align-items-center justify-content-center no_comments_alert">Not
