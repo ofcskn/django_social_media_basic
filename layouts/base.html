@@ -53,10 +53,10 @@
                         // remove value
                         $commentInput.val("");
                     }
-                    else if(data=="not-valid") {
+                    else if (data == "not-valid") {
                         $formDiv.addClass("was-validated");
                     }
-                    else{
+                    else {
                         alert("There is an error.")
                     }
                 }
@@ -74,6 +74,75 @@
             }
         });
 
+        $(".post_comment__delete_btn").on("click", function () {
+            var $this = $(this);
+            var list_item = $this.closest(".post_comment__list__item");
+            var form_url = $this.data("url");
+            $.ajax({
+                url: form_url,
+                method: "POST",
+                data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
+                success: function (data) {
+                    if (data == "success") {
+                        list_item.remove();
+                    }
+                }
+            });
+        })
+
+        $(".post_comment__edit_btn").on("click", function () {
+            var $this = $(this);
+            var list_item = $this.closest(".post_comment__list__item");
+            var comment_text__div = list_item.find(".post_comment__text");
+            var comment_text__span = comment_text__div.find("span");
+            var comment_text = comment_text__span.text();
+            var form_url = $this.data("url");
+
+            // remove text
+            comment_text__span.remove();
+            $('<input>').attr({
+                type: 'text',
+                name: 'content',
+                class: 'form-control w-100 editable_comment__input',
+                value: comment_text,
+            }).appendTo(comment_text__div);
+
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'url',
+                value: form_url,
+            }).appendTo(comment_text__div);
+
+
+        });
+
+        $("body").delegate(".editable_comment__input", "keydown", function (e) {
+            var $this = $(this);
+            var list_item = $this.closest(".post_comment__list__item");
+            var comment_text__div = list_item.find(".post_comment__text");
+            var form_url = list_item.find("input[name='url']").val();
+            var comment_content = list_item.find("input[name='content']").val();
+
+            if (e.key == "Escape") {
+                $this.remove();
+                $('<span>').appendTo(comment_text__div).text(comment_content);
+            }
+            else if (e.which == 13) {
+                console.log("keypress enter");
+                $.ajax({
+                    url: form_url,
+                    method: "POST",
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}', content: comment_content },
+                    success: function (data) {
+                        if (data == "success") {
+                            comment_content = list_item.find("input[name='content']").val();
+                            $this.remove();
+                            $('<span>').appendTo(comment_text__div).text(comment_content);
+                        }
+                    }
+                });
+            }
+        })
 
         $(".post_action__btn").click(function () {
             var $button = $(this);

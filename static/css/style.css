@@ -67,13 +67,14 @@
 .profile_statistics ul li {
     margin-right: 10px;
 }
-.profile_statistics ul li a{
+
+.profile_statistics ul li a {
     text-decoration: none;
     color: #000;
 }
+
 .profile_statistics ul li span,
-.profile_statistics ul li a span
- {
+.profile_statistics ul li a span {
     font-weight: bold;
 }
 
@@ -226,11 +227,27 @@ a.deco-none {
     margin-left: 6px;
 }
 
-.grid-item{
+.grid-item {
     padding: 8px;
 }
 
-.grid-item .card{
+.grid-item .card {
     overflow: hidden;
     border-radius: 10px;
+}
+
+.comments_of_post .list-group-item {
+    border: none;
+}
+.comments_of_post{
+    border:1px solid rgb(230, 230, 230);
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+}
+
+.comments_section_of_post .input-group,
+.comments_section_of_post input,
+.comments_section_of_post span
+{
+    border-radius: 5px 5px 0 0;
 }

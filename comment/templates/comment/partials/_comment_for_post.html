@@ -1,17 +1,31 @@
 {% load static %}
 
-<li class="list-group-item d-flex align-items-center justify-content-between px-3 py-3">
+<li class="post_comment__list__item list-group-item d-flex align-items-center justify-content-between px-3 pt-3">
     <div class="d-flex align-items-center">
         <a href="{% url 'core:get_user' user_name=comment.who_sent.username %}">
             <img width="40" height="40" class="rounded-circle me-3"
-            src="/media/{% if comment.who_sent.avatar != None and comment.who_sent.avatar != '' %}{{comment.who_sent.avatar}}{% else %}profile/default.png{% endif %}">
+                src="/media/{% if comment.who_sent.avatar != None and comment.who_sent.avatar != '' %}{{comment.who_sent.avatar}}{% else %}profile/default.png{% endif %}">
         </a>
         <div class="comment_content ms-2">
             <h6 class="mb-1">{{comment.who_sent.username}}</h6>
-            <span class="">
-                {{comment.content}}
-            </span>
+            <div class="post_comment__text">
+                <span>{{comment.content}}</span>
+            </div>
         </div>
     </div>
-    <button class="reply_button btn btn-sm" type="button">Reply</button>
+    <div class="d-flex align-items-center">
+        <button class="reply_button btn btn-sm" type="button">
+            <i class="fa fa-reply"></i>
+        </button>
+        <div class="btn-group" role="group">
+            <button  type="button" class="btn btn-sm dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="fa fa-pen"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li><button type="button" class="dropdown-item post_comment__edit_btn" data-url="{% url 'comment:edit' id=comment.pk %}">Edit</button></li>
+                <li><button type="button" class="dropdown-item post_comment__delete_btn" data-url="{% url 'comment:delete' id=comment.pk %}">Delete</button></li>
+            </ul>
+        </div>
+    </div>
 </li>

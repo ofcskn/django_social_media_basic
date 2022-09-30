@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 app_name  = "comment"
 urlpatterns = [
     path('send/to/<str:permalink>',  views.SendView.as_view(), name="send_comment_to_post"),
+    path('edit/<int:id>',  views.EditView.as_view(), name="edit"),
+    path('delete/<int:id>',  views.DeleteView.as_view(), name="delete"),
 ]
 
 if settings.DEBUG:

@@ -64,11 +64,14 @@
                             class="fas fa-paper-plane"></i></button>
                 </span>
             </div>
-            <ul class="list-group list-group-flush mt-3 border border-1 comments_of_post  rounded">
-                {% if post|getCommentsOfPost|length > 0 %}
-                {% for comment in post|getCommentsOfPost %}
-                {% include 'comment/partials/_comment_for_post.html' with comment=comment %}
+            <ul class="list-group list-group-flush comments_of_post border-1">
+                {% if post|getLatestCommentsOfPost:2|length > 0 %}
+                {% for comment in post|getLatestCommentsOfPost:2 %}
+                    {% include 'comment/partials/_comment_for_post.html' with comment=comment %}
                 {% endfor %}
+                <li class="list-group-item px-3 pt-3">
+                    <a href="#" class="text-muted">See all</a>
+                </li>
                 {%else%}
                 <li class="list-group-item d-flex align-items-center justify-content-center no_comments_alert">Not
                     shared comments yet. You can share a comment with us.</li>

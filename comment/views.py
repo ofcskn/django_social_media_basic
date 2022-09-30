@@ -38,5 +38,31 @@ class SendView(View):
             return render(request, self.template_name, {"comment": post_comment})
         else:
             return HttpResponse("not-valid")
-        
-            
+
+
+class EditView(View):
+    form_class = PostCommentForm
+    @method_decorator(login_required)
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # get comment by id
+            comment = get_object_or_404(PostComment, id=self.kwargs['id'])
+            if comment.who_sent == request.user:
+                comment.content = form.cleaned_data['content']
+                comment.save()
+                return HttpResponse("success")
+            else:
+                return HttpResponse(401)               
+
+
+class DeleteView(View):
+    @method_decorator(login_required)
+    def post(self, request, *args, **kwargs):
+        # get comment by id
+        comment = get_object_or_404(PostComment, id=self.kwargs['id'])
+        if comment.who_sent == request.user:
+            comment.delete()
+            return HttpResponse("success")
+        else:
+            return HttpResponse(401)            
