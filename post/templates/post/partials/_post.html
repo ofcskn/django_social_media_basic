@@ -53,27 +53,21 @@
             </div>
         </div>
         <div class="comments_section_of_post border-light" id="post_comments_{{post.hashed_permalink}}">
-            <div class="input-group mt-3">
-                <input class="form-control border border-1" name="send_comment" placeholder="Comment on the post...">
+            <div class="input-group mt-3 send_comment_div">
+                <input class="form-control border border-1" name="comment_content" placeholder="Comment on the post...">
                 <span class="input-group-text bg-transparent">
-                    <button type="button" class="btn btn-sm"><i class="fas fa-paper-plane"></i></button>
+                    <button type="button" class="btn btn-sm send_comment_btn" data-url="{% url 'post:send_comment_to_post' permalink=post.hashed_permalink %}"><i class="fas fa-paper-plane"></i></button>
                 </span>
             </div>
-            {% if comments_all|length > 0 %}
-            <ul class="list-group list-group-flush mt-3 border border-1 rounded">
+            <ul class="list-group list-group-flush mt-3 border border-1 comments_of_post  rounded">
+                {% if comments_all|length > 0 %}
                 {% for comment in post.comments_all %}
-                <li class="list-group-item d-flex align-items-center justify-content-between px-3 py-3">
-                    <a href="{% url 'core:get_user' user_name=comment.who_sent.username %}">
-                        <img width="40" height="40" class="rounded-circle me-3"
-                        src="/media/{% if comment.who_sent.avatar != None and comment.who_sent.avatar != '' %}{{comment.who_sent.avatar}}{% else %}profile/default.png{% endif %}">
-                    </a>
-                    <span class="comment_content">
-                        {{comment.content}}
-                    </span>
-                </li>
+                    {% include 'post/partials/_comment_for_post.html' with comment=comment %}
                 {% endfor %}
-              </ul>
-              {% endif %}
+                {%else%}
+                <li class="list-group-item d-flex align-items-center justify-content-center no_comments_alert">Not shared comments yet. You can share a comment with us.</li>
+                {% endif %}
+            </ul>
         </div>
     </div>
 </div>
