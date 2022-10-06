@@ -8,11 +8,10 @@ from tag.models import Tag
 from post.models import  Post, PostAction, PostComment
 from .forms import PostCommentForm
 from django.utils.decorators import method_decorator
-import re
-import hashlib
-import time
+from django.http import JsonResponse
 from uuid import uuid4
 import socket
+import json
 
 # functions 
 # get ip address via the function
@@ -20,6 +19,15 @@ def get_ip():
     hostname=socket.gethostname()
     ip=socket.gethostbyname(hostname)
     return ip
+
+class GetAllByPostView(View):
+    template_name = 'comment/partials/_comment_for_post.html'
+    @method_decorator(login_required)
+    def get(self, request, *args, **kwargs):
+        # get post by permalink 
+        post = get_object_or_404(Post,hashed_permalink=self.kwargs['permalink'])
+        post_comments = PostComment.objects.all().filter(for_post=post).values()
+        return JsonResponse({"post_comments": list(post_comments)}, safe=False)
 
 class SendView(View):
     form_class = PostCommentForm

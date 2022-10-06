@@ -1,7 +1,7 @@
 {% load static %}
 {% load post_comments %}
 
-<li class="post_comment__list__item_with_sub list-group-item d-flex row px-3 pt-3">
+<li class="post_comment__list__item_with_sub list-group-item pt-3">
     <div class="d-flex post_comment__list__item align-items-center justify-content-between">
         <div class="d-flex align-items-center">
             <a href="{% url 'core:get_user' user_name=comment.who_sent.username %}">

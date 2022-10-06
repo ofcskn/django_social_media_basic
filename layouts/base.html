@@ -26,6 +26,7 @@
     </div>
     <!--footer-->
     {% include "partials/_footer.html" with app_name=app_name %}
+    {% include "partials/_modals.html" with app_name=app_name %}
     {% block my_modals %} {%endblock%}
     <!-- jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -172,6 +173,20 @@
                 }).appendTo(comment_text__div);
             }
         })
+        $(".show_comments__btn").click(function () {
+            var $button = $(this);
+            var form_url = $(this).data("url");
+            $.ajax({
+                url: form_url,
+                method: "GET",
+                data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
+                success: function (data) {
+                    data['post_comments'].forEach(element => {
+                        console.log(element)
+                    });
+                }
+            });
+        });
 
         $(".post_action__btn").click(function () {
             var $button = $(this);

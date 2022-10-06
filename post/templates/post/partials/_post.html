@@ -44,8 +44,8 @@
                     <span class="post_action__num">{{post.total_like_count}}</span>
                 </div>
                 <div class="post_action__button">
-                    <a type="button" class="post_action__btn text-muted not_action" href="#post_comments_{{post.hashed_permalink}}"><i
-                            class="fa fa-comments"></i></button>
+                    <a type="button" class="post_action__btn text-muted not_action"
+                        href="#post_comments_{{post.hashed_permalink}}"><i class="fa fa-comments"></i></button>
                         <span class="post_action__num">{{post.total_comment_count}}</a>
                 </div>
             </div>
@@ -57,7 +57,8 @@
         </div>
         <div class="comments_section_of_post border-light" id="post_comments_{{post.hashed_permalink}}">
             <div class="input-group mt-3 send_comment_div needs-validation">
-                <input class="form-control border border-1" name="comment_content" required placeholder="Comment on the post...">
+                <input class="form-control border border-1" name="comment_content" required
+                    placeholder="Comment on the post...">
                 <span class="input-group-text bg-transparent">
                     <button type="button" class="btn btn-sm send_comment_btn"
                         data-url="{% url 'comment:send_comment_to_post' permalink=post.hashed_permalink %}"><i
@@ -67,10 +68,11 @@
             <ul class="list-group list-group-flush comments_of_post border-1">
                 {% if post|getLatestCommentsOfPost:2|length > 0 %}
                 {% for comment in post|getLatestCommentsOfPost:2 %}
-                    {% include 'comment/partials/_comment_for_post.html' with comment=comment %}
+                {% include 'comment/partials/_comment_for_post.html' with comment=comment %}
                 {% endfor %}
                 <li class="list-group-item px-3 pt-3">
-                    <a href="#" class="text-muted">See all</a>
+                    <button type="button" class="btn show_comments__btn"
+                        data-url="{% url 'comment:get_all_by_post' permalink=post.hashed_permalink %}">See All</button>
                 </li>
                 {%else%}
                 <li class="list-group-item d-flex align-items-center justify-content-center no_comments_alert">Not

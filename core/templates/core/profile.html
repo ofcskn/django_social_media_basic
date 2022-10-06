@@ -101,7 +101,7 @@
                         {%endfor%}
                     </div>
                     {% else %}
-                    <p>No posts from @{{profile_user.username}}</p>
+                    <p class="text-center">No posts from @{{profile_user.username}}</p>
                     {% endif %}
                 </div>
                 <div class="tab-pane {% if request.path == saved_posts_url|getStringFromUnicode %}show active{% endif %}" id="saved_posts"
@@ -118,7 +118,7 @@
                         {%endfor%}
                     </div>
                     {% else %}
-                    <p>No posts have been saved yet.</p>
+                    <p class="text-center">No posts have been saved yet.</p>
                     {% endif %}
                 </div>
                 <div class="tab-pane {% if request.path == liked_posts_url|getStringFromUnicode %}show active{% endif %}" id="liked_posts"
@@ -135,7 +135,7 @@
                         {%endfor%}
                     </div>
                     {% else %}
-                    <p>No posts have been liked yet.</p>
+                    <p class="text-center">No posts have been liked yet.</p>
                     {% endif %}
                 </div>
             </div>
