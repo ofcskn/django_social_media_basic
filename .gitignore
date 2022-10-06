@@ -130,4 +130,5 @@ dmypy.json
 
 
 # media
-media
+media/profile
+media/posts
