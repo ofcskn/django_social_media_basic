@@ -3,4 +3,4 @@ django_on_heroku==1.1.2
 Pillow==9.2.0
 unicode_slugify==0.1.5
 gunicorn==20.1.0
-whitenoise-6.2.0
+whitenoise==6.2.0
