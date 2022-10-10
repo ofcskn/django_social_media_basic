@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import django_on_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -14,7 +15,9 @@ SECRET_KEY = 'django-insecure-qc9-^%#axeb4c-7f2zv2r4n@p(6tu+fr(16f5^&l1i+ss+4-c$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'socipoki.herokuapp.com'
+]
 
 # My values
 APP_NAME = "Socipoki"
@@ -25,7 +28,6 @@ AUTH_USER_MODEL = "account.User"
 LOGOUT_REDIRECT_URL = "/"
 
 # Configure Django App for Heroku.
-import django_on_heroku
 django_on_heroku.settings(locals())
 
 # Application definition
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -125,13 +128,18 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
+STATIC_ROOT  =   os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_URL = '/static/'
 
-STATIC_URL = 'static/'
+# Extra lookup directories for collectstatic to find static files
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+#  Add configuration for static files storage using whitenoise
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
