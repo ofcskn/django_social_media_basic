@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
-import django_on_heroku
+import dj_database_url
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qc9-^%#axeb4c-7f2zv2r4n@p(6tu+fr(16f5^&l1i+ss+4-c$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'socipoki.herokuapp.com'
@@ -27,8 +28,6 @@ LOGIN_URL = "/account/login"
 AUTH_USER_MODEL = "account.User"
 LOGOUT_REDIRECT_URL = "/"
 
-# Configure Django App for Heroku.
-django_on_heroku.settings(locals())
 
 # Application definition
 
@@ -139,7 +138,7 @@ STATICFILES_DIRS = (
 )
 
 #  Add configuration for static files storage using whitenoise
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -148,3 +147,5 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+django_heroku.settings(locals())
