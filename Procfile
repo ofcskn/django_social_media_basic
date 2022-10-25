@@ -1,1 +1,1 @@
-web: gunicorn social_media_basic.wsgi.py
+web: gunicorn social_media_basic.wsgi
